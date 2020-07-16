@@ -18,7 +18,7 @@ const { key } = require('./gen-key');
 
 // eslint-disable-next-line no-unused-vars
 
-dotenv.config();
+dotenv.config('.env');
 process.env.TALENT_POOL_JWT_SECRET = key(64);
 
 // eslint-disable-next-line import/order
@@ -52,8 +52,8 @@ const adminManagementRoute = require('./Routes/super-admin/manage-admin');
 // import route for company
 const companyRouter = require('./Routes/company/company');
 // IMPORT FAQ ROUTES
-const faqRoutes = require('./Routes/faq');
-const faqGeneralRoutes = require('./Routes/faq-all');
+const faqAdminRoutes = require('./Routes/faqs/faq_admin')
+const faqGeneralRoutes = require('./Routes/faqs/faq_general')
 const chatRoute = require('./Routes/chat');
 
 const packageRoutes = require('./Routes/employer/employer-package');
@@ -217,10 +217,10 @@ app.use('/v1/employer', getAllEmployees);
 
 // admin routes goes here
 app.use('/admin', adminHelpRoute);
-// app.use('/admin', faqRoutes);
+app.use('/admin', faqAdminRoutes);
 app.use('/v1/admin', adminBaseFunction);
 // get general FAQ routes
-app.use('/v1', faqGeneralRoutes);
+app.use('/', faqGeneralRoutes);
 
 // app.use('/v1/admin', adminViewAllEmployees);
 app.use('/v1/admin', adminExportEmployer);

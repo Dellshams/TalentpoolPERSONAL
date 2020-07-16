@@ -21,12 +21,34 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
+      category:{
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        defaultValue:'TP'
+      },
+      blocked:{
+        type: DataTypes.INTEGER,
+        allowNull:false,
+        defaultValue:0,
+      }
     },
     {
+    indexes: [
+      {
+        type: 'FULLTEXT',
+        name: 'question',
+        fields :['question','answer']
+      },
+      // {
+      //   type: 'FULLTEXT',
+      //   name: 'answer',
+      //   fields :['answer']
+      // }
+    ],
       paranoid: true,
       underscored: true,
       // timestamp:false,
-    }
+    },
   );
   // eslint-disable-next-line no-unused-vars
   // User.associate = function(models)
