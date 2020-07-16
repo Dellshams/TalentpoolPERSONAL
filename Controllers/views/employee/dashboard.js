@@ -1,86 +1,54 @@
-exports.getEmployeeDash = async (req, res, next) => {
-  res.render("Pages/employee-dashboard", {
-    pageTitle: "Talent Pool | Employee Dashboard",
-    path: "employee-dashboard",
-    employeeProfile: {
-      first_name: "Moses",
-      last_name: "Bolarinwa",
-      email: "odutusinmoses@gmail.com",
-      location: "Toronto,Canada",
-      phone_no: "08147793653",
-      skillCategory: "UI?UX Designer",
-    },
-    employeeSkill: ["Vuejs", "Figma", "Jenkins", "Adobe"],
-    // userPortfolio
-    user: {
-      name: "bolarin",
-      role: "employee",
-      stack: "UI?UX designer",
-      location: "Toronto,Canada",
-      email: "odutusinmoses@gmail.com",
-      phone: "08147793653",
-      socials: {
-        twitter: "@Anosike_UI",
-        dribble: "https://dribble.com/dribble",
-        behance: "https://www.behance.net/behance",
-      },
-    },
-
-    jobs: {
-      available: 12,
-      appliedFor: 2,
-    },
-    applications: {
-      pending: 2,
-    },
+/* eslint-disable object-curly-newline */
+/* eslint-disable consistent-return */
+// const employeeController = require('../../employee/employee-profile');
+exports.getEmployeeMessages = (req, res) => {
+  res.render('Pages/employee-messages', {
+    pageTitle: 'Talent Pool | Messages',
+    path: '/employee/messages',
+  });
+};
+exports.getEmployeePortfolio = (req, res) => {
+  const { employeeId } = req.session;
+  res.render('Pages/employee-portfolio', {
+    pageTitle: 'Talent Pool | Portfolio',
+    dashboardPath: `${URL}employee/dashboard/${employeeId}`,
+    profilePath: `${URL}employee/profile/${employeeId}`,
+    portfolioPath: `${URL}employee/portfolio/${employeeId}`,
+    path: '',
   });
 };
 
-exports.getEmployeeMessages = (req, res, next) => {
-  res.render("Pages/employee-messages", {
-    pageTitle: "Talent Pool | Employee Messages",
-    path: "employee-messages",
+exports.getEmployeeSupport = (req, res) => {
+  res.render('Pages/employee-support', {
+    pageTitle: 'Talent Pool | Support',
+    path: '/employee/support',
   });
 };
-
-exports.getEmployeeProfile = async (req, res, next) => {
-  res.render("Pages/employeeProfile", {
-    pageTitle: "Talent Pool | Employee Profile",
-    path: "employee-profile"
+exports.getEmployeeSettings = (req, res) => {
+  res.render('Pages/employee-settings', {
+    pageTitle: 'Talent Pool | Settings',
+    path: '/employee/settings',
   });
 };
-
-exports.getEmployeeAddTeam = (req, res, next) => {
-  res.render("Pages/employee-addTeam", {
-    pageTitle: "Talent Pool | Employee Add Team",
-    path: "employee-addTeam",
+exports.getEmployeeEmployers = (req, res) => {
+  res.render('Pages/employee-employer', {
+    pageTitle: 'Talent Pool | Employers',
+    path: '/employee/employers',
   });
 };
+exports.getEmployeeProfileCreation = (req, res) => {
+  const { isLoggedIn, employeeId, isProfileCreated, profileId } = req.session;
 
-exports.getEmployeeSupport = (req, res, next) => {
-  res.render("Pages/employee-support", {
-    pageTitle: "Talent Pool | Employee Support",
-    path: "employee-support",
-  });
-};
-
-exports.getEmployeeSettings = (req, res, next) => {
-  res.render("Pages/employee-settings", {
-    pageTitle: "Talent Pool | Employee Settings",
-    path: "employee-settings",
-  });
-};
-
-exports.getEmployeeEmployers = (req, res, next) => {
-  res.render("Pages/employee-employer", {
-    pageTitle: "Talent Pool | Employee Employers",
-    path: "/employee-employers",
-  });
-};
-
-exports.getEmployeeProfileCreation = (req, res, next) => {
-  res.render("Pages/employee-profile-creation", {
-    pageTitle: "TalentPool | Employer Create Profile",
-    path: "/employee-profile-creation",
-  });
+  if (isLoggedIn && employeeId) {
+    res.redirect(`/employee/dashboard/${req.session.employeeId}`);
+  } else if (profileId && isProfileCreated) {
+    res.redirect(`/employee/dashboard/${req.session.profileId}`);
+  } else {
+    return res.render('Pages/employee-profile-creation', {
+      success: req.query.success_message,
+      errorMessage: req.query.error_message,
+      pageTitle: 'TalentPool | Create Profile',
+      path: '/employee/profile/create',
+    });
+  }
 };

@@ -8,23 +8,22 @@
 const cloud = require('cloudinary').v2;
 const { uuid } = require('uuidv4');
 const db = require('../../Models');
-
 const employerss = db.Employer;
 const documentupload = db.Employerdocument;
-const comoany_type = db.Company_category;
-
+const company_type = db.Company_category;
+const mainuser = db.User;
 // configure cloudinary
 cloud.config({
   cloud_name: process.env.TALENT_POOL_CLOUD_NAME,
   api_key: process.env.TALENT_POOL_CLOUD_API,
   api_secret: process.env.TALENT_POOL_CLOUD_SECRET,
 });
-
 // create a class to handle all operations regarding the employer
 class Employers {
   // create a static method
   static async create(req, res) {
     // validate the file first
+    let user_id = req.session.userId;
     if (!req.files) {
       return res.status(400).json({
         status: 'error',
@@ -37,6 +36,7 @@ class Employers {
     // validate image function below
     validateimage(file, req, res, 1000000);
     // check for individual information
+
     const {
       employer_name,
       company_category_id,
@@ -47,7 +47,6 @@ class Employers {
       employer_address,
       employer_country,
       website,
-      user_id,
       sex,
       facebook,
       twitter,
@@ -57,7 +56,7 @@ class Employers {
     } = req.body;
     // file.name=`${dir}${organization_name}.png`
     // eslint-disable-next-line no-unused-vars
-    const fname = file.name;
+    //const fname = file.name;
     // eslint-disable-next-line no-console
     const employer = {
       employer_name,
@@ -88,7 +87,6 @@ class Employers {
           message: 'Record already exist',
         });
       }
-
       const employeroperation = await employerss.create(employer);
       if (!employeroperation) {
         return res.status(400).send({
@@ -119,14 +117,15 @@ class Employers {
     } catch (err) {
       res.status(500).send({
         status: 'error',
-        message: 'An error occurred, make sure you fill all forms field',
+        message:
+          'An error occurred,invalid industry selected and makesure you fill all fields',
       });
     }
   }
-
   // update employers profile
   static async updateemployer(req, res) {
-    // validate the file files
+    // validate the file
+    let employer_id = req.session.employerId;
     if (!req.files) {
       return res.status(400).json({
         status: 'error',
@@ -136,12 +135,43 @@ class Employers {
     // validation functionction should be he
     const file = req.files.photo;
     validateimage(file, req, res, 1000000);
+    try {
+      const result = await cloud.uploader.upload(file.tempFilePath);
+      const { secure_url } = result;
+      // update the image
+      const photoupdate = await employerss.update(
+        { employer_photo: secure_url },
+        {
+          where: { employer_id },
+          returning: true,
+          plain: true,
+          force: true,
+        },
+      );
+      if (photoupdate[1] === 1) {
+        return res.status(200).send({
+          status: 'success',
+          message: 'Profile logo updated successfully',
+        });
+      }
+      return res.status(400).send({
+        status: 'error',
+        message: 'An error occured updating profile logo',
+      });
+    } catch (err) {
+      res.status(500).send({
+        status: 'error',
+        message: 'An error occured updating profile info',
+      });
+    }
+  }
+  static async updateindividual(req, res) {
+    // validate the file files
+    let employer_id = req.session.employerId;
     const {
-      // eslint-disable-next-line camelcase
       employer_name,
       company_category_id,
       employer_type,
-      employer_id,
       description,
       employer_phone,
       employer_email,
@@ -155,6 +185,12 @@ class Employers {
       instagram,
     } = req.body;
     const employersInfoUpdate = {
+      description,
+      website,
+      facebook,
+      twitter,
+      linkedin,
+      instagram,
       employer_name,
       company_category_id,
       employer_type,
@@ -163,7 +199,6 @@ class Employers {
       employer_email,
       employer_address,
       employer_country,
-      employer_photo: 'No image yet',
       website,
       sex,
       facebook,
@@ -178,27 +213,14 @@ class Employers {
         plain: true,
       });
       if (result[1] === 1) {
-        // do the file upload and update
-        const result = await cloud.uploader.upload(file.tempFilePath);
-        const { secure_url } = result;
-        // update the image
-        await employerss.update(
-          { employer_photo: secure_url },
-          {
-            where: { employer_id },
-            returning: true,
-            plain: true,
-            force: true,
-          },
-        );
         return res.status(200).send({
           status: 'success',
-          message: 'Profile updated',
+          message: 'Profile logo updated successfully',
         });
       }
       return res.status(400).send({
         status: 'error',
-        message: 'An error occured updating profile info',
+        message: result,
       });
     } catch (err) {
       res.status(500).send({
@@ -207,25 +229,19 @@ class Employers {
       });
     }
   }
-
   static async getemployerdetails(req, res) {
-    const { id } = req.params;
     try {
-      const getemployerdetails = await employerss.findAll({
+      const employerinformation = await employerss.findOne({
         where: {
-          employer_id: id,
+          employer_id: req.session.employerId,
         },
-        include: [comoany_type],
+        include: [company_type, mainuser],
       });
       if (getemployerdetails.length <= 0) {
-        return res
-          .status(400)
-          .json({ status: 'error', message: 'Employer details not found' });
+        return res.send('404 error');
       }
-      return res.status(201).json({
-        status: 'success',
-        getemployerdetails,
-      });
+      req.user = employerinformation;
+      // return employerinformation;
     } catch (err) {
       res.status(500).send({
         status: 'error',
@@ -233,17 +249,16 @@ class Employers {
       });
     }
   }
-
   static async documentupload(req, res) {
     // upload document
-    const { employer_id, document_name, document_number } = req.body;
+    let employer_id = req.session.employerId;
+    const { document_name, document_number } = req.body;
     if (!req.files) {
       return res.status(400).json({
         status: 'error',
         message: 'no file selected',
       });
     }
-
     const file = req.files.image_document;
     // verify if file is png/jpg
     validateimage(file, req, res, 5000000);
@@ -253,13 +268,12 @@ class Employers {
     if (!validate) {
       return res
         .status(400)
-        .json({ status: 'error', message: 'Invalid employer id' });
+        .json({ status: 'error', message: 'Employer not valid' });
     }
     // run the process
     const resultview = await cloud.uploader.upload(file.tempFilePath);
     const { secure_url } = resultview;
     // eslint-disable-next-line no-console
-    console.log(secure_url);
     const documentobject = {
       document_id: uuid(),
       employer_id,
@@ -275,6 +289,15 @@ class Employers {
           message: 'document not uploaded',
         });
       }
+      await employerss.update(
+        { verification_status: 'Uploaded' },
+        {
+          where: { employer_id },
+          returning: true,
+          plain: true,
+          force: true,
+        },
+      );
       return res.status(200).json({
         status: 'success',
         message: 'Document successfully uploaded',
@@ -286,7 +309,6 @@ class Employers {
       });
     }
   }
-
   static async getemployersdocument(req, res) {
     const { id } = req.params;
     try {
@@ -300,7 +322,7 @@ class Employers {
           .status(400)
           .json({ statu: 'error', message: 'No document found' });
       }
-
+      //whenever the page is ready i am available
       return res.status(201).json({
         status: 'success',
         getdocumentdetails,

@@ -7,14 +7,20 @@ const passport = require('passport');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 
+const flash = require('connect-flash');
+const bodyParser = require('body-parser');
+const csrf = require('csurf');
 // Requiring express rate limit
 // const rateLimit = require('express-rate-limit');
 const fileupload = require('express-fileupload');
 const cors = require('cors');
+const { key } = require('./gen-key');
+
 // eslint-disable-next-line no-unused-vars
-const { errorResMsg } = require('./Utils/response');
 
 dotenv.config();
+process.env.TALENT_POOL_JWT_SECRET = key(64);
+
 // eslint-disable-next-line import/order
 const morgan = require('morgan');
 const db = require('./Models');
@@ -69,16 +75,18 @@ const adminExportEmployee = require('./Routes/admin/export-verified-employee');
 const adminVerifyEmployer = require('./Routes/admin/verify-employer');
 const adminVerifyEmployee = require('./Routes/admin/verify-employee');
 
-// IMPORT ALL GET EMPLOYERS AND EMPLOYEES ROUTE --ADMIN
-const listAll = require('./Routes/list/list-all');
-
 // IMPORT TRANSACTION ROUTES
 const employerTransaction = require('./Routes/employer/employer-transaction');
 
 // IMPORT GET VERFIED EMPLOYEES ROUTES
 const getAllEmployees = require('./Routes/employer/get-employees');
 
+// IMPORT EMPLOYER DASHBOARD
+const employerDashboard = require('./Routes/employer/employer-dashboard');
+
 // IMPORT THE VIEWS ROUTES
+const adminPackages = require('./Routes/views/payment/admin_package');
+const employerPackages = require('./Routes/views/payment/employer_package');
 const appRoute = require('./Routes/views');
 const adminDashRoute = require('./Routes/views/admin/dashboard');
 const employeeAuthRoute = require('./Routes/views/employee/auth');
@@ -94,18 +102,31 @@ const adminAuthRoute = require('./Routes/views/admin/auth');
 const employerMetrics = require('./Routes/views/employer/metrics');
 const employerRecommendation = require('./Routes/views/employer/recommendation');
 const verifyModal = require('./Routes/views/admin/verifyModal');
+const teamRoute = require('./Routes/views/team/index');
+const messageRoute = require('./Routes/views/message/message');
+const superAdmin = require('./Routes/super-admin/manage-admin');
+
+const csrfProtection = csrf();
 
 const app = express();
+
+app.locals.moment = require('moment');
 
 app.use(morgan('tiny'));
 app.use(cors());
 
 // Set Security HTTP Headers
 app.use(helmet());
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  }),
+);
 
 // View Engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use(flash());
 
 // using rateLimit
 // const limiter = rateLimit({
@@ -124,7 +145,7 @@ app.set('views', path.join(__dirname, 'views'));
 // });
 
 app.use(fileupload({ useTempFiles: true }));
-db.sequelize.sync().then(() => {
+db.sequelize.sync({}).then(() => {
   seedSuperAdmin();
 });
 
@@ -132,22 +153,43 @@ app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
     name: 'session',
+    // sameSite: true,
     keys: [process.env.TALENT_POOL_SESSION_COOKIEKEY],
   }),
 );
-
+// app.use(
+//   cookieSession({
+//     name: auth,
+//     resave: false,
+//     secret: 'myname',
+//     cookie: {
+//       maxAge: time,
+//       sameSite: true
+//     }
+//   })
+// );
 // passportjs initialization
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(csrfProtection);
+app.use((req, res, next) => {
+  const token = req.csrfToken();
+  // console.log(token);
+  res.cookie('csrf-token', token);
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 // express body parser
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(
+  express.urlencoded({
+    extended: false,
+  }),
+);
 // Cookie Parser
 app.use(cookieParser());
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
-
 // ROUTES
 
 // chat route
@@ -164,19 +206,19 @@ app.use('/v1/employee', employeeSkillsRoutes);
 app.use('/v1/employee', employeeSearchRoutes);
 
 // employers route goes here
-app.use('/v1/employer', employerRoute);
+app.use('/employer', employerRoute);
 app.use('/v1/employer', employerUpgradeRoute);
 app.use('/v1/employer', employerReviews);
 app.use('/v1/employer', employerTransaction);
+app.use('/v1/employer', employerDashboard);
 
 // Employers get all verified employees
 app.use('/v1/employer', getAllEmployees);
 
 // admin routes goes here
-app.use('/v1/admin', adminHelpRoute);
-app.use('/v1/admin', faqRoutes);
+app.use('/admin', adminHelpRoute);
+// app.use('/admin', faqRoutes);
 app.use('/v1/admin', adminBaseFunction);
-
 // get general FAQ routes
 app.use('/v1', faqGeneralRoutes);
 
@@ -185,14 +227,16 @@ app.use('/v1/admin', adminExportEmployer);
 app.use('/v1/admin', adminExportEmployee);
 app.use('/v1/admin', adminVerifyEmployer);
 app.use('/v1/admin', adminVerifyEmployee);
-app.use('/v1', listAll); // Get ALL Employees and Employers
+
+// super admin route
+app.use('/v1/superadmin', superAdmin);
 
 // team route goes here
 app.use('/v1/team', teamRoutes);
 
 // auth
 app.use('/v1/auth', googleAuth);
-app.use('/v1/auth', auth);
+app.use('/auth', auth);
 
 // app.use('/v1/admin', adminRoute); // admin
 app.use('/v1/admin', adminManagementRoute); // super admin
@@ -203,12 +247,12 @@ app.use('/v1/package', packageRoutes);
 // global error handler
 app.use(errorHandler);
 
-//All routes
+// All routes
 app.use(appRoute);
-//app.use(adminRoute);
+// app.use(adminRoute);
 app.use(employeeAuthRoute);
 app.use(employeeDashboardRoute);
-app.use(employerAuthRoute);
+app.use(employerAuthRoute); // mark this
 app.use(employerDashboardRoute);
 app.use(adminDashRoute);
 app.use(topTalentsRoute);
@@ -220,5 +264,10 @@ app.use(adminAuthRoute);
 app.use(employerMetrics);
 app.use(employerRecommendation);
 app.use(verifyModal);
+app.use(teamRoute);
+app.use(adminPackages);
+app.use(employerPackages);
+app.use(googleAuth);
+app.use(messageRoute);
 
 module.exports = app;
