@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <script>
+        const employees = <%- JSON.stringify(employees) %>;
+    </script>
+    <%- include('../Templates/head') %>
+
+    <link rel="stylesheet" href="styles/custom-css/directory.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- NAV-BAR -->
+    <%- include('../Templates/header') %>
+    <main class="directory-container">
+
+        <div class="hero">
+            <div class="hero-header">
+                <img src="img/directory-search-icon.svg" class="d-none d-md-block">
+                <div class="text">
+                    <h2>Directory</h2>
+                    <div> Find graduates with various skills and tracks. </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid main">
+            <div class="row">
+
+                <div class="col-lg-3">
+                    <div class="filters">
+                        <div class="tab">
+                            <span>
+                                <h2 class="title">
+                                    Filters
+                                </h2>
+                            </span>
+                        </div>
+                        <div class="tab has-content ">
+                            <span data-target="#skillsContent" data-toggle="collapse" aria-controls="skillsContent">
+                                Skills
+                                <i class="fa fa-angle-down rotate-icon "></i>
+                            </span>
+                            <div id="skillsContent" class="content collapse">
+                            </div>
+                        </div>
+                        <div class="tab">
+                            <span>
+                                Age
+                            </span>
+                            <div>
+                                <select class="form-control" onchange="filterEmployees()" id="age">
+                                    <option value="0">none</option>
+                                    <% for (let i = 1; i <= 100; i++) { %>
+                                        <option value="<%= i %>"><%= i %></option>
+                                   <% }%>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="tab">
+                            <span>
+                                Location
+                            </span>
+                            <div>
+                                <select class="form-control">
+                                    <option disabled selected>Region</option>
+                                    <option>Nigeria</option>
+                                    <option>USA</option>
+                                    <option>UK</option>
+                                    <option>China</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="tab has-content">
+                            <span data-target="#availabilityContent" data-toggle="collapse"
+                                aria-controls="availabilityContent">
+                                Availability
+                                <i class="fa fa-angle-down rotate-icon"></i>
+                            </span>
+                            <div id="availabilityContent" class="content collapse">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <p>
+                            Scroll through our list of qualified graduates or sort with the filter
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+
+
+                    <div class="search-bar">
+                        <div class="search-box form-group">
+                            <span class="fa fa-search form-control-icon" aria-hidden="true"></span>
+                            <input id="search" onchange="filterEmployees()" class="form-control" type="text" placeholder="Search Directory with keywords">
+                        </div>
+
+                        <div class="top-links">
+                            <div class="row align-items-center">
+                                <div class="col-sm-8">
+                                    <ul class="nav nav-pills flex-column flex-sm-row" id="roles-filter">
+                                        <li class="nav-link flex-sm-fill text-center active"><a onclick="filterRoles(0)" href="#">All</a></li>
+                                        <li class="nav-link flex-sm-fill text-center"><a onclick="filterRoles(1)" href="#">Design</a></li>
+                                        <li class="nav-link flex-sm-fill text-center"><a onclick="filterRoles(2)" href="#">Mobile</a></li>
+                                        <li class="nav-link flex-sm-fill text-center"><a onclick="filterRoles(3)" href="#">Frontend</a></li>
+                                        <li class="nav-link flex-sm-fill text-center"><a onclick="filterRoles(4)" href="#">Backend</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-4 d-flex justify-content-around right-filter">
+                                    <span class="align-self-center interns" id="number-interns"><%= employees.length %> interns</span>
+                                    <div class="sort">
+                                        <select class="form-control">
+
+                                            <option>Relevance</option>
+                                            <option>Name</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-cards" id="user-cards">
+                        <% for(const employee of employees) { %>
+                        <div class="user-card <%= employee.role %>">
+                            <div class="user-card-inner">
+
+                                <div class="title">
+
+                                    <div class="user-card-image-container">
+                                        <div class="user-card-image"
+                                            style="background-image: url(<%= employee.picture_url %>);">
+                                        </div>
+                                    </div>
+
+                                    <div class="user-texts">
+                                        <h4>
+                                            <%= employee.first_name + ' ' + employee.last_name %>
+                                        </h4>
+                                        <h6> <%= employee.roleDescription %> </h6>
+                                    </div>
+                                </div>
+                                <div class="profile">
+                                    <a href="/employee-profile/<%= employee.employee_id %>">View profile</a>
+                                    <div class="skills">
+
+                                        <ul>
+                                            <% if(employee.skills.length < 1) { %>
+                                            <li>
+                                                None
+                                            </li> 
+                                            <% } %>
+                                            <% for( const skill of employee.skills ){ %>
+                                            <li>
+                                                <%= skill.skill_description %>
+                                            </li>
+                                            <% } %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+<script src="/js/custom-js/directories.js"></script>
+<script>
+    loadAllSkills();
+</script>
+
+    <%- include('../Templates/footer') %>
+    <%- include('../Templates/script') %>
+</body>

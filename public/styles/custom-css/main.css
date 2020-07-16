@@ -1,0 +1,311 @@
+body {
+   font-family: 'Poppins', sans-serif;
+   overflow-x: hidden;
+}
+
+.btn:hover{
+   background-color: #337ab7;
+   text-decoration: none;
+}
+
+input {
+   border: 2px solid #B5B5B5 !important;
+   font-size: 1rem;
+   line-height: 24px;
+}
+
+input::placeholder {
+   color: rgba(178, 178, 178, 0.58);
+}
+
+input:focus, input:active {
+   outline: none !important;
+   border: 2px solid #337AB7 !important;
+   box-shadow: none !important;
+}
+
+.clients-card{
+   height: 380px;
+}
+
+.main-section{
+   max-height: 450px;
+}
+
+.main-title{
+  color: #012C3D;
+}
+
+.talent-row{
+   max-width: 1400px;
+}
+
+.nav-tabs .nav-link {
+   display: inline !important;
+   transition: all 0.3s ease-in-out;
+}
+
+.nav-tabs .nav-link.active {
+   color: black !important;
+   border-bottom: 3px solid #084482 !important;
+   border-top-color: transparent !important;
+   border-left-color: transparent !important;
+   border-right-color: transparent !important;
+}
+
+.nav-tabs .nav-link:hover {
+   border-bottom: 3px solid #084482 !important;
+   border-top-color: transparent !important;
+   border-left-color: transparent !important;
+   border-right-color: transparent !important;
+}
+
+.talent-link{
+   border-bottom-width: 3px;
+   border-bottom-style: solid;
+   border-bottom-color: transparent;
+}
+
+.talent-link:hover, .talent-link:active{
+   border-bottom-color: #084482;
+}
+
+.talent-link:hover, .talent-link:active{
+   color: black;
+   text-decoration: none;
+   border-bottom: 3px solid #084482;
+}
+
+.main-section {
+   background-color: #D6D9DF;
+}
+
+.img-5{
+   position: absolute;
+   top: -2px;
+   left: 0px;
+   z-index: 10;
+   max-width: 200px;
+   box-shadow: 0px 4px 12px rgba(181, 181, 181, 0.25);
+}
+
+.img-6{
+   position: relative;
+   left: -150px;
+   top: 120px;
+   max-width: 200px;
+   box-shadow: 0px 4px 12px rgba(181, 181, 181, 0.25);
+}
+
+.img-7{
+   position: relative;
+   top: -197px;
+   right: -100px ;
+   max-width: 200px;
+   box-shadow: 0px 4px 12px rgba(181, 181, 181, 0.25);
+}
+.img-1{
+   position: absolute;
+left: 180px;
+top: 20px;
+z-index: 1;
+max-width: 200px;
+
+box-shadow: 0px 4px 12px rgba(181, 181, 181, 0.25);
+}
+
+.img-2{
+   position: absolute;
+left: -1px;
+top: 100px;
+max-width: 200px;
+box-shadow: 0px 4px 12px rgba(181, 181, 181, 0.25);
+}
+
+.img-3{
+   position: absolute;
+   right: 30px;
+   top: 200px;
+   max-width: 200px;  
+box-shadow: 0px 4px 12px rgba(181, 181, 181, 0.25);
+}
+
+.hire-btn,
+.vetting-section {
+   background-color: #00AEFF;
+
+}
+
+.card-section {
+   background-color: #EBECED;
+}
+
+.card-footer,
+.join-btn {
+   background-color: #084482;
+}
+
+.talent-card {
+   box-shadow: 0px 4px 12px rgba(215, 215, 215, 0.25);
+   max-height: 100%;
+}
+
+.hire-text {
+   color: #676767;
+}
+
+.card-four {
+   background-color: #E7E7E7;
+   box-shadow: 0px 4px 12px rgba(215, 215, 215, 0.25);
+}
+
+.talent-link {
+   text-decoration: none;
+   color: #C2C2C2;
+}
+
+.read-more:hover{
+   color: white;
+   text-decoration: none; 
+}
+
+.bg-image1 {
+   background: linear-gradient(rgba(20, 20, 20, .8),
+         rgba(20, 20, 20, .8)),
+      url("/img/pic6.svg");
+   background-size: cover;
+   transition: all 1s;
+
+}
+
+.bg-image1:hover{
+  transform: scale(1.1);
+}
+
+.four-cards{
+   background-color: black;
+}
+
+.filter{
+   transition: filter .4s ease-in, transform .4s ease-in;
+   -webkit-filter: grayscale(100%);
+   filter: grayscale(100%)   brightness(0.9);
+   padding-left: 15px;
+   padding-right: 15px;
+   opacity: 0.7;
+}
+
+.filter:hover{
+   transform: scale(1.1);
+   -webkit-filter: grayscale(0%);
+   filter: grayscale(0%)   brightness(.7) ;
+}
+
+.read-more{
+   color: white;
+}
+
+.client-testimonial{
+   display: block;
+   background: no-repeat url("/img/Adelanke.svg");
+   background-size: cover;
+   width: 56px;
+   height: 56px;
+   border-radius: 50%;
+   padding-left: 15px;
+   /* width: 614px !important; */
+ }
+
+.card{
+   border-radius: 5px !important;
+}
+
+.height-fix {
+   min-height: 560px;
+}
+
+@media screen and (max-width: 700px){
+   .card{
+      border-radius: 0px !important;
+   }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+   .filter{
+      padding-left: 4px;
+      padding-right: 4px
+   }
+
+   .height-fix {
+      min-height: 614px;
+   }
+}
+
+@media (min-width: 600px) and (max-width: 767px) {
+   .filter{
+   padding-left: 45px;
+   padding-right: 45px
+}
+}
+
+@media(min-width: 300px) and (max-width: 800px) {
+   .text-sm-center{
+    text-align: center;
+    padding: 1rem 1.2rem;
+   }
+   
+ }
+ 
+ @media(max-width: 360px){
+    h1{
+       font-size: 2rem;
+    }
+    p{
+       font-size: .8rem;
+    }
+    .filter{
+      padding-right: 12px;
+      padding-left: 12px;
+     }
+ }
+
+.hire-heading {
+   font-weight: normal;
+   font-size: 2rem;
+   line-height: 48px;
+   text-align: center;
+   color: #1C1C1C;
+}
+
+.hire-talent-steps {
+   padding-top: 120px;
+   padding-bottom: 120px;
+}
+
+.hire-talent-steps span {
+   height: 48px;
+   width: 48px;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background: #084482;
+   color: white;
+   margin: auto;
+   margin-bottom: 1.5rem;
+}
+
+.hire-talent-steps h5 {
+   font-size: 1.5rem;
+   line-height: 36px;
+   color: #676767;
+   margin-bottom: 9px;
+}
+
+.hire-talent-steps p {
+   font-weight: 300;
+   font-size: 1rem;
+   line-height: 160%;
+   color: #343434;
+}
+
