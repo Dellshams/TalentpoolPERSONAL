@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
       underscored: true,
       // timestamp:false,
-    },
+    }
   );
   // eslint-disable-next-line no-unused-vars
   // User.associate = function(models)

@@ -1,6 +1,6 @@
 module.exports = {
   adminSignUp: (req, res) => {
-    res.render('Pages/admin-signup', { pageName: 'Admin SignUp',isLoggedIn:req.session.isLoggedIn });
+    res.render('Pages/admin-signup', { pageName: 'Admin SignUp' });
   },
 
   // adminLogin: (req, res) => {
