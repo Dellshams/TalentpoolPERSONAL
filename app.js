@@ -19,7 +19,7 @@ const cors = require('cors');
 const { key } = require('./gen-key');
 // eslint-disable-next-line no-unused-vars
 
-dotenv.config('.env');
+dotenv.config();
 process.env.TALENT_POOL_JWT_SECRET = key(64);
 
 const db = require('./Models');
