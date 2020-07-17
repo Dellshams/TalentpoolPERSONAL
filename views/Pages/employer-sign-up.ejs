@@ -600,10 +600,42 @@
 
     <%- include('../Templates/footer') %> <%- include('../Templates/script') %>
     <script>
+      const submitButton = document.getElementById('signup-btn');
+      const submitButton1 = document.getElementById('signup-btn1');
+      const checkBox = document.getElementById('termsPolicy');
+      const checkBox1 = document.getElementById('orgTerms');
+      
       $(document).ready(function(){
+        submitButton.disabled = true;
+        submitButton1.disabled = true
+
         var hash = window.location.hash;
         hash && $('div.nav a[href="' + hash + '"]').tab('show');
         $(window).scrollTop();
+      });
+
+      checkBox.addEventListener('change', (e) => {
+        console.log(e);
+        if (e.target.checked === true) {
+          submitButton.disabled = false;
+        }else {
+          submitButton.disabled = true;
+        }
+      })
+
+      checkBox1.addEventListener('click', (e) => {
+        if (e.target.checked == true) {
+          submitButton1.disabled = false;
+        }else{
+          submitButton1.disabled = true;
+        }
+      })
+      
+      submitButton.addEventListener('click', (e) => {
+          submitButton.innerHTML = '<span class="spinner-border spinner-border" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>';
+      });
+      submitButton1.addEventListener('click', (e) => {
+          submitButton1.innerHTML = '<span class="spinner-border spinner-border" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>';
       });
       // Getting verify status to know if registration is successful or not
       const verifyStatus = `<%- success %>`;

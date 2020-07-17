@@ -149,8 +149,9 @@
                             <div class="row checkboxes">
                                 <div class="col my-1">
                                     <div class="custom-control custom-checkbox mr-sm-2" >
-                                        <input type="checkbox" name="terms" class="custom-control-input" id="terms-policy">
-                                        <label class="custom-control-label" for="terms-policy">I agree to the <a href="#" class="login-link">Terms and Conditions</a></label>
+                                        
+                                        <input type="checkbox" name="terms" class="custom-control-input" id="termsPolicy">
+                                        <label class="custom-control-label" for="termsPolicy">I agree to the <a href="#" class="login-link">Terms and Conditions</a></label>
                                         <div id="invalidCheck">
                                         </div>
                                     </div>
@@ -297,8 +298,8 @@
                             <div class="row checkboxes">
                                 <div class="col my-1">
                                     <div class="custom-control custom-checkbox mr-sm-2" >
-                                        <input type="checkbox" name="terms" class="custom-control-input" id="terms-policyV2">
-                                        <label class="custom-control-label" for="terms-policyV2">I agree to the <a href="#" class="login-link">Terms and Conditions</a></label>
+                                        <input type="checkbox" name="terms" class="custom-control-input" id="orgTerms">
+                                        <label class="custom-control-label" for="orgTerms">I agree to the <a href="#" class="login-link">Terms and Conditions</a></label>
                                         <div id="invalidCheckV2">
                                         </div>
                                     </div>
@@ -307,7 +308,7 @@
                             <div class="loaderV2"></div>
                             <div class="row">
                                 <div class="col form-button">
-                                    <button class="btn btn-primary btn-block btn-color py-3 mt-3 mb-4" id="signup-btnV2" type="submit" data-toggle="" data-target="#exampleModalV2">Sign Up</button>
+                                    <button class="btn btn-primary btn-block btn-color py-3 mt-3 mb-4" id="signup-btn1" type="submit" data-toggle="" data-target="#exampleModalV2">Sign Up</button>
                                 </div>
             
                                  <!-- Modal -->
@@ -373,17 +374,50 @@
 <%- include('../Templates/footer') %>
 <%- include('../Templates/script') %>
 <script>
+    const submitButton = document.getElementById('signup-btn');
+    const submitButton1 = document.getElementById('signup-btn1');
+    const checkBox = document.getElementById('termsPolicy');
+    const checkBox1 = document.getElementById('orgTerms');
+
      $(document).ready(function(){
+        submitButton.disabled = true;
+        submitButton1.disabled = true;
+
         var hash = window.location.hash;
         hash && $('div.nav a[href="' + hash + '"]').tab('show');
         $(window).scrollTop();
       });
+
+    checkBox.addEventListener('change', (e) => {
+        console.log(e);
+        if (e.target.checked === true) {
+          submitButton.disabled = false;
+        }else {
+          submitButton.disabled = true;
+        }
+      })
+
+      checkBox1.addEventListener('click', (e) => {
+        if (e.target.checked == true) {
+          submitButton1.disabled = false;
+        }else{
+          submitButton1.disabled = true;
+        }
+      })
+  
+    submitButton.addEventListener('click', (e) => {
+        submitButton.innerHTML = '<span class="spinner-border spinner-border" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>';
+    });
+    submitButton1.addEventListener('click', (e) => {
+        submitButton1.innerHTML = '<span class="spinner-border spinner-border" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>';
+    });
     // Getting verify status to know if registration is successful or not
     const verifyStatus = `<%- success %>`;
     if (verifyStatus == 'Verification email sent!') {
         // Displaying the modal
       $('#exampleModal').modal();
     }
+
   </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
