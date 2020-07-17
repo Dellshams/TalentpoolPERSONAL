@@ -151,7 +151,12 @@
                                         <tbody>
                                           <tr class="d-flex justify-content-between align-items-center mb-4">
                                             <th scope="row">
-                                                <img src="https://pbs.twimg.com/profile_images/1095180025668743168/LgPx_hOQ.jpg" alt="" />
+                                            <% if (!employer.employer_photo ) {%>
+                                                <img src="/img/avatar-icon.jpg" alt="" style="height: 60px;width: 60px;"/>
+                                            <% } %>
+                                            <% if (employer.employer_photo ) {%>
+                                                <img src="<%=employer.employer_photo %>" alt="" style="height: 60px;width: 60px;"/>
+                                            <% } %>   
                                             </th>
                                             <td class="name"><%=employer.employer_name %></td>
                                             <td class="join">Joined</td>
