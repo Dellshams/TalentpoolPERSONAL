@@ -34,7 +34,7 @@ module.exports = {
         next();
       }
     } catch (error) {
-      res.send(error);
+      return res.redirect('/employer/login');
     }
   },
   auth_firstLogin: async (req, res, next) => {
@@ -51,7 +51,7 @@ module.exports = {
 
       next();
     } catch (error) {
-      res.send(error);
+      return res.redirect('/employer/login');
     }
   },
   auth_valid_profile: async (req, res, next) => {
@@ -106,7 +106,7 @@ module.exports = {
       req.session.details = employerbasicInfo;
       next();
     } catch (error) {
-      res.send(error);
+      return res.redirect('/employer/login');
     }
   },
   auth_pending: async (req, res, next) => {
