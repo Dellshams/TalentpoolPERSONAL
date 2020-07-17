@@ -158,5 +158,11 @@
     <script src="../js/bootstrap-js/bootstrap.js"></script> -->
     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="js/custom-js/employerlogin.js" type="module"></script> -->
+    <script>
+      const submitButton = document.getElementById('signup-btn');
+      submitButton.addEventListener('click', (e) => {
+          submitButton.innerHTML = '<span class="spinner-border spinner-border" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>';
+      });
+  </script>
   </body>
 </html>

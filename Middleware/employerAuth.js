@@ -5,12 +5,8 @@ const company_type = db.Company_category;
 
 module.exports = {
   auth_main: async (req, res, next) => {
-    //get this token to check for the employer id
     req.session.userId;
     if (!req.session.userId) return res.redirect('/employer/login');
-    //load the company category
-    const compayCat = await company_type.findAll();
-    req.session.companycat = compayCat;
     next();
   },
   auth_validuser: async (req, res, next) => {
@@ -34,7 +30,7 @@ module.exports = {
         next();
       }
     } catch (error) {
-      res.send(error);
+      return res.redirect('/employer/login');
     }
   },
   auth_firstLogin: async (req, res, next) => {
@@ -51,7 +47,7 @@ module.exports = {
 
       next();
     } catch (error) {
-      res.send(error);
+      return res.redirect('/employer/login');
     }
   },
   auth_valid_profile: async (req, res, next) => {
@@ -63,69 +59,13 @@ module.exports = {
         },
         include: [mainuser, company_type],
       });
-
-      const allEmployees = await db.Employee.count();
-
-      const employeeContacted = await db.Team.count({
-        where: {
-          employer_id: req.session.userId,
-        },
-      });
-
-      const employeeEmployed = await db.Team.count({
-        where: {
-          employer_id: req.session.userId,
-          status: 'Accepted',
-        },
-      });
-
       //go back to file creation page
       if (!getemployer) return res.redirect('/employer/profile/create');
       req.session.employerId = getemployer.dataValues.employer_id;
       req.session.status = getemployer.dataValues.verification_status;
-      //actually i can use foreach here or map but guy man don tire
-      //this is not dry at all but we move
-      var {
-        id,
-        CompanyCategoryCategoryId,
-        UserUserId,
-        User,
-        Company_category,
-        ...employerInfo
-      } = getemployer.dataValues;
-      var {
-        id,
-        RoleRoleId,
-        block,
-        password,
-        auth_id,
-        status,
-        verification_token,
-        provider,
-        role_id,
-        resetPasswordToken,
-        resetPasswordExpire,
-        ...userIdentity
-      } = getemployer.dataValues.User.dataValues;
-      var {
-        id,
-        RoleRoleId,
-        ...userIndustry
-      } = getemployer.dataValues.Company_category.dataValues;
-
-      var dashboard = { allEmployees, employeeContacted, employeeEmployed }
-
-      const employerbasicInfo = {
-        ...userIdentity,
-        employerInfo,
-        userIndustry,
-        dashboard,
-      };
-
-      req.session.details = employerbasicInfo;
       next();
     } catch (error) {
-      res.send(error);
+      return res.redirect('/employer/login');
     }
   },
   auth_pending: async (req, res, next) => {
@@ -135,12 +75,10 @@ module.exports = {
     }
     next();
   },
-
   auth_uploaded: async (req, res, next) => {
     if (req.session.status === 'Uploaded') {
       return res.redirect('/employer/dasboard/success');
     }
-
     next();
   },
   auth_disapproved: async (req, res, next) => {

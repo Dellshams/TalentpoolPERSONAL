@@ -21,7 +21,7 @@
         </div>
 
         <div class="d-flex align-items-center top__nav__user">
-          <div class="img-fluid mr-2"><img src="/img/Employer Dashboard/user2.png" alt=""></div>
+          <div class="img-fluid mr-2"><img src="/img/avatar-icon.jpg" alt="" style="height: 60px;width: 60px;"/></div>
           <div class="top__nav__user__name">
             <h6 class="text-primary m-0 mr-2"><%= currentUser %></h6>
             <p>Administrator</p>
@@ -42,10 +42,12 @@
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" style="
           padding: 0.5em 1em;
-          margin-top: 0.5em;
-          background: #33beff;
-          color: #fff;
-          border-radius: 5px;
+          margin-left:30px;
+          margin-right:auto;
+          background:white;
+          border:none !important;
+          color: black;
+          
         ">Logout</button>
               </form>
               <!-- <a class="dropdown-item" href="/loggedout">Sign Out</a> -->
@@ -57,4 +59,3 @@
     </div>
   </div>
 </div>
-

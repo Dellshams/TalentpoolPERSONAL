@@ -8,8 +8,12 @@
 /* eslint-disable operator-linebreak */
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const { uuid } = require('uuidv4');
-const { validationResult } = require('express-validator');
+const {
+  uuid
+} = require('uuidv4');
+const {
+  validationResult
+} = require('express-validator');
 const model = require('../Models/index');
 
 const jsonWT = require('../Utils/auth-token');
@@ -27,9 +31,9 @@ const {
 
 // eslint-disable-next-line operator-linebreak
 const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.TALENT_POOL_DEV_URL
-    : process.env.TALENT_POOL_FRONT_END_URL;
+  process.env.NODE_ENV === 'development' ?
+  process.env.TALENT_POOL_DEV_URL :
+  process.env.TALENT_POOL_FRONT_END_URL;
 
 exports.registerEmployer = (req, res) => {
   (async () => {
@@ -44,7 +48,9 @@ exports.registerEmployer = (req, res) => {
       // Validate input
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        const errResponse = errors.array({ onlyFirstError: true });
+        const errResponse = errors.array({
+          onlyFirstError: true
+        });
         req.flash('oldInput', employerUserData);
         req.flash('errors', errResponse);
         return res.redirect('/employer/register');
@@ -67,7 +73,9 @@ exports.registerEmployer = (req, res) => {
 
       // check if email exist and create user
       const user = await model.User.findOne({
-        where: { email: userEmail },
+        where: {
+          email: userEmail
+        },
       });
       if (!user) {
         const userData = {
@@ -126,7 +134,9 @@ exports.registerEmployerOrg = (req, res) => {
       // Validate input
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        const errResponse = errors.array({ onlyFirstError: true });
+        const errResponse = errors.array({
+          onlyFirstError: true
+        });
         req.flash('oldInput', employerUserData);
         req.flash('errors', errResponse);
         return res.redirect('/employer/register#company');
@@ -150,7 +160,9 @@ exports.registerEmployerOrg = (req, res) => {
 
       // check if email exist and create user
       const user = await model.User.findOne({
-        where: { email: userEmail },
+        where: {
+          email: userEmail
+        },
       });
       if (!user) {
         const userData = {
@@ -200,8 +212,12 @@ exports.registerEmployerOrg = (req, res) => {
 };
 
 exports.postEmployeeLogin = async (req, res, next) => {
-  const { email } = req.body;
-  const { password } = req.body;
+  const {
+    email
+  } = req.body;
+  const {
+    password
+  } = req.body;
   let currentUser;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -219,7 +235,12 @@ exports.postEmployeeLogin = async (req, res, next) => {
     });
   }
 
-  model.User.findOne({ where: { email, role_id: 'ROL-EMPLOYEE' } })
+  model.User.findOne({
+      where: {
+        email,
+        role_id: 'ROL-EMPLOYEE'
+      }
+    })
     .then(async (user) => {
       if (!user) {
         return res.status(422).render('Pages/employee-sign-in', {
@@ -239,7 +260,9 @@ exports.postEmployeeLogin = async (req, res, next) => {
       let userTypeId = null;
 
       const employee = await model.Employee.findOne({
-        where: { user_id: user.user_id },
+        where: {
+          user_id: user.user_id
+        },
       });
       if (employee) {
         userTypeId = employee.employee_id;
@@ -325,8 +348,12 @@ exports.postEmployeeLogin = async (req, res, next) => {
 };
 
 exports.postEmployerLogin = async (req, res, next) => {
-  const { email } = req.body;
-  const { password } = req.body;
+  const {
+    email
+  } = req.body;
+  const {
+    password
+  } = req.body;
   let currentUser;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -344,7 +371,12 @@ exports.postEmployerLogin = async (req, res, next) => {
     });
   }
 
-  model.User.findOne({ where: { email, role_id: 'ROL-EMPLOYER' } })
+  model.User.findOne({
+      where: {
+        email,
+        role_id: 'ROL-EMPLOYER'
+      }
+    })
     .then(async (user) => {
       if (!user) {
         return res.status(401).render('Pages/employer-signin', {
@@ -365,7 +397,9 @@ exports.postEmployerLogin = async (req, res, next) => {
       let verificationStatus = null;
 
       const employer = await model.Employer.findOne({
-        where: { user_id: user.user_id },
+        where: {
+          user_id: user.user_id
+        },
       });
       if (employer) {
         userTypeId = employer.employer_id;
@@ -412,6 +446,7 @@ exports.postEmployerLogin = async (req, res, next) => {
               userTypeId,
               verificationStatus,
             };
+            
             req.session.data = data;
             req.session.isLoggedIn = true;
             req.session.userId = user.user_id;
@@ -527,8 +562,12 @@ exports.postEmployerLogin = async (req, res, next) => {
 // };
 
 exports.adminLogin = async (req, res, next) => {
-  const { email } = req.body;
-  const { password } = req.body;
+  const {
+    email
+  } = req.body;
+  const {
+    password
+  } = req.body;
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -544,7 +583,11 @@ exports.adminLogin = async (req, res, next) => {
       validationErrors: errors.array(),
     });
   }
-  model.User.findOne({ where: { email } })
+  model.User.findOne({
+      where: {
+        email
+      }
+    })
     .then(async (user) => {
       if (!user) {
         return res.status(422).render('Pages/admin-login', {
@@ -575,7 +618,9 @@ exports.adminLogin = async (req, res, next) => {
       let userTypeId = null;
 
       const admin = await model.Admin.findOne({
-        where: { user_id: user.user_id },
+        where: {
+          user_id: user.user_id
+        },
       });
 
       if (admin) {
@@ -665,7 +710,11 @@ const getResetPasswordToken = () => {
   // Set expire
   const resetPasswordExpire = Date.now() + 3600000;
 
-  return { resetToken, resetPasswordToken, resetPasswordExpire };
+  return {
+    resetToken,
+    resetPasswordToken,
+    resetPasswordExpire
+  };
 };
 
 // @desc      Forgot password
@@ -673,7 +722,9 @@ const getResetPasswordToken = () => {
 // @access    Public
 exports.forgotPassword = asyncHandler(async (req, res) => {
   const user = await model.User.findOne({
-    where: { email: req.body.email },
+    where: {
+      email: req.body.email
+    },
   });
 
   if (!user) {
@@ -688,22 +739,19 @@ exports.forgotPassword = asyncHandler(async (req, res) => {
     resetPasswordExpire,
   } = getResetPasswordToken();
 
-  await model.User.update(
-    {
-      resetPasswordToken,
-      resetPasswordExpire,
+  await model.User.update({
+    resetPasswordToken,
+    resetPasswordExpire,
+  }, {
+    where: {
+      email: req.body.email,
     },
-    {
-      where: {
-        email: req.body.email,
-      },
-    },
-  );
+  }, );
 
   // Create reset url
   const resetUrl = `${URL}/password/reset/${resetToken}`;
-  const message = `You are receiving this email because a password reset has been requested 
-  with your email. Please click this link to proceed: \n\n <a href=${resetUrl}>link</a> or 
+  const message = `You are receiving this email because a password reset has been requested
+  with your email. Please click this link to proceed: \n\n <a href=${resetUrl}>link</a> or
   ignore if you are unaware of this action.`;
 
   try {
@@ -720,7 +768,9 @@ exports.forgotPassword = asyncHandler(async (req, res) => {
     user.reset_password_token = null;
     user.reset_password_expire = null;
 
-    await user.save({ validateBeforeSave: false });
+    await user.save({
+      validateBeforeSave: false
+    });
 
     req.flash('error', 'An error occured, please try again!');
     return res.redirect('/recover/password');
@@ -772,13 +822,17 @@ exports.resendVerificationLink = async (req, res) => {
   // Validate input
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const errResponse = errors.array({ onlyFirstError: true });
+    const errResponse = errors.array({
+      onlyFirstError: true
+    });
     req.flash('error', errResponse[0].msg);
     return res.redirect('/verify-email');
   }
   // check if user exist
   const checkUser = await model.User.findOne({
-    where: { email: req.body.email },
+    where: {
+      email: req.body.email
+    },
   });
   if (!checkUser) {
     // return errorResMsg(res, 403, 'Invalid email');
@@ -804,7 +858,7 @@ exports.resendVerificationLink = async (req, res) => {
   // mail verification code to the user
   const verificationUrl = `${URL}/auth/email/verify?verification_code=${token}`;
 
-  const message = `<p> Hello, you requested for the resend of your verification link. 
+  const message = `<p> Hello, you requested for the resend of your verification link.
         Kindly verify your email </p><a href ='${verificationUrl}'>link</a>`;
   try {
     await sendEmail({
@@ -823,7 +877,9 @@ exports.resendVerificationLink = async (req, res) => {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
-    res.render('Pages/verify-email', { PageName: 'Verify Email' });
+    res.render('Pages/verify-email', {
+      PageName: 'Verify Email'
+    });
   }
 };
 
@@ -831,9 +887,18 @@ exports.updatePassword = (req, res) => {
   (async () => {
     try {
       // eslint-disable-next-line camelcase
-      const { oldPassword, newPassword } = req.body;
-      const { userId } = req.params;
-      const user = await model.User.findOne({ where: { user_id: userId } });
+      const {
+        oldPassword,
+        newPassword
+      } = req.body;
+      const {
+        userId
+      } = req.params;
+      const user = await model.User.findOne({
+        where: {
+          user_id: userId
+        }
+      });
       if (!user) {
         return errorResMsg(res, 404, 'user does not exist');
       }
@@ -846,28 +911,16 @@ exports.updatePassword = (req, res) => {
         // hash password before saving
         const salt = bcrypt.genSaltSync(10);
         const hashPassword = bcrypt.hashSync(newPassword, salt);
-        await model.User.update(
-          {
-            password: hashPassword,
+        await model.User.update({
+          password: hashPassword,
+        }, {
+          where: {
+            user_id: userId,
           },
-          {
-            where: {
-              user_id: userId,
-            },
-          },
-        );
-        await mailer.send({
-          template: '/emails/users/password',
-          message: {
-            to: req.body.email,
-          },
-          locals: {
-            name: req.body.name,
-            type: req.body.type,
-          },
-        });
-    
-        const data = { message: 'Password sucessfully updated' };
+        }, );
+        const data = {
+          message: 'Password sucessfully updated'
+        };
         return successResMsg(res, 200, data);
       });
     } catch (err) {
@@ -877,10 +930,17 @@ exports.updatePassword = (req, res) => {
 };
 
 exports.superAdminLogin = (req, res, next) => {
-  const { email, password } = req.body;
+  const {
+    email,
+    password
+  } = req.body;
   // const { password } = req.body;
   let currentUser;
-  model.User.findOne({ where: { email } })
+  model.User.findOne({
+      where: {
+        email
+      }
+    })
     .then((user) => {
       if (!user) {
         return errorResMsg(
