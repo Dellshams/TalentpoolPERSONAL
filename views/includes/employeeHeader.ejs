@@ -42,6 +42,7 @@
         </div>
 
         <div class="d-flex align-items-center top__nav__user">
+<<<<<<< HEAD
           <div class="mr-2"><img class="employeeProfilePhoto"
               style="width: 75px; border-radius: 50%"
               src=<%= data.employee.image %> alt="employee image">
@@ -49,6 +50,15 @@
           <div class="top__nav__user__name">
             <h6 class="employeename text-primary m-0">
               <%#= data.employee.username %>
+=======
+          <% if (profileImage) { %>
+            <div class="img-fluid mr-2"><img class="employeeProfilePhoto"
+              style="width: 75px;" src=<%= profileImage %> >
+          </div>
+          <% } %>
+          <div class="top__nav__user__name">
+            <h6 class="employeename text-primary m-0">
+>>>>>>> f80f46f40866318ae2e2c8f04c8b3f0ab91adc68
             </h6>
             <p class="employeeRole m-0 mr-0"></p>
           </div> -->

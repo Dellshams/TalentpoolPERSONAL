@@ -19,6 +19,7 @@ module.exports = {
     res.render('Pages/admin-dash-faq', {
       pageName: 'Faq',
       path: 'admin-faq',
+      currentUser: req.session.name,
     });
   },
 
@@ -26,6 +27,7 @@ module.exports = {
     res.render('Pages/admin-dash-employer-msg', {
       pageName: 'Messages for employer',
       path: 'admin-dashboard',
+      currentUser: req.session.name,
     });
   },
 
@@ -33,6 +35,7 @@ module.exports = {
     res.render('Pages/admin-dash-messages', {
       pageName: 'Admin Messages',
       path: 'admin-messages',
+      currentUser: req.session.name,
     });
   },
 
@@ -80,6 +83,7 @@ module.exports = {
         totalEmployers,
         csrf,
         session,
+        currentUser: req.session.name,
       });
     } catch (err) {
       console.log(err);
@@ -166,6 +170,7 @@ module.exports = {
         moment,
         csrf: req.csrfToken(),
         session,
+        currentUser: req.session.name,
       });
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -206,6 +211,8 @@ module.exports = {
       latestTransactions,
       activeTransactions: Transactions.length,
       transactDetails,
+      message: req.query.message,
+      currentUser: req.session.name,
     });
   },
 
@@ -213,6 +220,7 @@ module.exports = {
     res.render('Pages/admin-verification', {
       pageName: 'Admin Verification',
       path: 'admins-verification',
+      currentUser: req.session.name,
     });
   },
 
@@ -226,6 +234,7 @@ module.exports = {
     res.render('Pages/admin-settings', {
       pageName: 'Admin Settings',
       path: 'admin-settings',
+      currentUser: req.session.name,
     });
   },
 
@@ -255,6 +264,7 @@ module.exports = {
       pageName: 'Talent Pool | View Admins',
       path: 'admins-list',
       allAdmins,
+      currentUser: req.session.name,
     });
   },
 
@@ -263,6 +273,7 @@ module.exports = {
       pageName: 'Manage Packages',
       path: 'manage-packages',
       data: packages,
+      currentUser: req.session.name,
     });
   },
 };

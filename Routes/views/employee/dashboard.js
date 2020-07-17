@@ -23,6 +23,9 @@ appRoute.delete(
   employeeController.deletePortfolio,
 );
 
+// Create Skill
+appRoute.post('/employee/create/skill', employeeController.createSkill);
+
 // Profile Page
 appRoute.get('/employee/profile/:employee_id', employeeController.getProfile);
 // Get Employee Messages
@@ -34,16 +37,19 @@ appRoute.get(
   employeeViewController.getEmployeeProfileCreation,
 );
 appRoute.post('/employee/profile/create', employeeController.createProfile);
+
+// Update Profile
+appRoute.patch('/employee/update/profile', employeeController.updateProfile);
 // Get Profile By Username -- No Page, use AXIOS then render data
 appRoute.get('/:username', employeeController.getProfileByUsername);
 // Employee Support
-appRoute.get('/employee/support', employeeViewController.getEmployeeSupport);
-// Employee Settings
-appRoute.get('/employee/settings', employeeViewController.getEmployeeSettings);
+// appRoute.get('/employee/support', employeeViewController.getEmployeeSupport);
+// // Employee Settings
+// appRoute.get('/employee/settings', employeeViewController.getEmployeeSettings);
 // Employee's Employers
-appRoute.get(
-  '/employee/employers',
-  employeeViewController.getEmployeeEmployers,
-);
+// appRoute.get(
+//   '/employee/employers',
+//   employeeViewController.getEmployeeEmployers,
+// );
 
 module.exports = appRoute;
