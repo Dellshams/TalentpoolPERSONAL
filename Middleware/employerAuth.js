@@ -113,7 +113,7 @@ module.exports = {
         ...userIndustry
       } = getemployer.dataValues.Company_category.dataValues;
 
-      var dashboard = { allEmployees, employeeContacted, employeeEmployed }
+      var dashboard = { allEmployees, employeeContacted, employeeEmployed };
 
       const employerbasicInfo = {
         ...userIdentity,
