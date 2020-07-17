@@ -224,7 +224,7 @@ class Employers {
           locals: {
             name: employer_name,
           },
-        });    
+        });
         return res.status(200).send({
           status: 'success',
           message: 'Profile info updated successfully',

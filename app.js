@@ -85,6 +85,9 @@ const getAllEmployees = require('./Routes/employer/get-employees');
 const employerDashboard = require('./Routes/employer/employer-dashboard');
 const employerSettings = require('./routes/employer/employer-settings');
 
+// IMPORT EMPLOYEE SETTINGS ROUTE
+const employeeSettings = require('./routes/employee/employee-settings');
+
 // IMPORT THE VIEWS ROUTES
 const adminPackages = require('./Routes/views/payment/admin_package');
 const employerPackages = require('./Routes/views/payment/employer_package');
@@ -205,6 +208,7 @@ app.use('/v1/employee', employeePortfolioRoute);
 app.use('/v1/employee', employeeHelpRoute);
 app.use('/v1/employee', employeeSkillsRoutes);
 app.use('/v1/employee', employeeSearchRoutes);
+app.use('/v1/employee', employeeSettings);
 
 // employers route goes here
 app.use('/employer', employerRoute);
