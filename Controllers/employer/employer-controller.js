@@ -12,6 +12,8 @@ const employerss = db.Employer;
 const documentupload = db.Employerdocument;
 const company_type = db.Company_category;
 const mainuser = db.User;
+const mailer = require('../../Utils/mailer');
+
 // configure cloudinary
 cloud.config({
   cloud_name: process.env.TALENT_POOL_CLOUD_NAME,
@@ -165,6 +167,7 @@ class Employers {
       });
     }
   }
+
   static async updateindividual(req, res) {
     // validate the file files
     let employer_id = req.session.employerId;
@@ -213,9 +216,18 @@ class Employers {
         plain: true,
       });
       if (result[1] === 1) {
+        await mailer.send({
+          template: '../emails/employer/account-changes',
+          message: {
+            to: employer_email,
+          },
+          locals: {
+            name: employer_name,
+          },
+        });    
         return res.status(200).send({
           status: 'success',
-          message: 'Profile logo updated successfully',
+          message: 'Profile info updated successfully',
         });
       }
       return res.status(400).send({

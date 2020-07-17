@@ -13,6 +13,7 @@ const model = require('../Models/index');
 const jsonWT = require('../Utils/auth-token');
 const asyncHandler = require('../Middleware/async');
 const sendEmail = require('../Utils/sendEmail');
+const mailer = require('../Utils/mailer');
 
 const {
   successResMsg,
@@ -848,6 +849,17 @@ exports.updatePassword = (req, res) => {
             },
           },
         );
+        await mailer.send({
+          template: '/emails/users/password',
+          message: {
+            to: req.body.email,
+          },
+          locals: {
+            name: req.body.name,
+            type: req.body.type,
+          },
+        });
+    
         const data = { message: 'Password sucessfully updated' };
         return successResMsg(res, 200, data);
       });
