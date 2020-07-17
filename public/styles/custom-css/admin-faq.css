@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  box-sizing: border-box;
+  line-height: 24px;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #e5e5e5;
+  overflow-x: hidden;
+}
+#sideNav {
+  z-index: 2;
+}
+.top__nav__wrapper {
+  z-index: 1;
+}
+
+#heading {
+  width: 361px;
+  height: 58px;
+  margin-left: 291px;
+  margin-top: 24px;
+
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 24px;
+  /* or 100% */
+
+  display: flex;
+  align-items: center;
+
+  color: #000000;
+}
+
+.faq_section {
+  margin-right: 48px;
+  margin-bottom: 248px;
+  margin-left: 291px;
+  margin-top: 28px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: auto;
+
+  box-shadow: 0px 4px 12px #eaeaea;
+  background-color: #ffffff;
+}
+.faq_sidenav {
+  min-height: 562px;
+  background: #e7eaec;
+  overflow-x: auto;
+}
+.faq_sidenav_options li a {
+  display: block;
+  min-height: 48px;
+  padding-left: 30px;
+  padding-right: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 16px;
+  align-items: center;
+  color: #000000;
+}
+
+.faq_sidenav_options li .active,
+.faq_sidenav_options li:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.faq_button_div {
+  position: absolute;
+  margin-top: 20px;
+  width: 100%;
+}
+.faq_button {
+  display: block;
+  background: #084482;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  transition: all;
+  /* height: 59px;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px; */
+
+  color: #ffffff;
+}
+
+.faq_button:hover {
+  text-decoration: none;
+  color: #ffffff;
+  background: #043464;
+  transform: scale(1.02);
+}
+
+.pricing {
+  margin-top: 20px;
+  margin-left: 40px;
+  max-width: 289px;
+  height: 58px;
+  font-size: 24px;
+  font-weight: 500;
+  float: left;
+  display: flex;
+  align-items: center;
+}
+.edit {
+  position: absolute;
+  right: 0;
+  margin-right: 29px;
+  margin-top: 20px;
+  max-width: 289px;
+  height: 58px;
+  font-weight: 500;
+  font-size: 16px;
+  align-items: center;
+  text-align: right;
+  color: #084482;
+  line-height: 58px;
+}
+
+.card-header {
+  margin-top: 7px;
+  margin-left: 20px;
+  margin-right: 24px;
+  border-radius: 10px 10px 10px;
+  border: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  min-height: 48px;
+  height: auto;
+  background: #e7eaec;
+}
+.card {
+  border: none;
+}
+.fa-plus {
+  font-size: 24px;
+  margin-right: 10px;
+}
+.card-body {
+  line-height: 160%;
+  margin-left: 30px;
+  margin-right: 24px;
+  color: #343434;
+}
+#questions {
+  margin-bottom: 69px;
+}
+
+/* Togggle Button Css */
+.block-toggler.hide {
+  display: none;
+}
+
+input.toggle {
+  display: none;
+}
+input.toggle + label {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  background: #b55;
+  height: 1em;
+  line-height: 1em;
+  width: 2em;
+  border-radius: 0.2em;
+  padding: 0;
+  -webkit-transition: all 250ms linear;
+  transition: all 250ms linear;
+  cursor: pointer;
+}
+input.toggle + label:before {
+  position: relative;
+  display: inline-block;
+  font-size: 0.8em;
+  width: 1.1em;
+  height: 1.1em;
+  text-align: center;
+  content: '✗';
+  color: #fff;
+  margin-left: 1.25em;
+  top: -1px;
+}
+input.toggle + label:after {
+  display: inline-block;
+  box-sizing: border-box;
+  content: '';
+  border: solid 1px #b55;
+  border-radius: 0.2em;
+  background: #fff;
+  -webkit-transition: all 250ms linear;
+  transition: all 250ms linear;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1em;
+  height: 1em;
+}
+
+input.toggle:checked + label {
+  background-color: #7eb302;
+}
+input.toggle:checked + label:before {
+  content: '✔';
+  margin-left: 0.075em;
+}
+input.toggle:checked + label:after {
+  left: calc(100% - 1em);
+  border-color: #7eb302;
+}
+input.toggle[disabled] + label,
+input.toggle[readonly] + label {
+  opacity: 0.5;
+  cursor: default;
+}
+.toggle-label {
+  display: none;
+}
+
+.admin-action {
+}
+
+.block-toggler {
+  transform: scale(1.75);
+}
+
+.get-started,
+.application,
+.membership {
+  display: none;
+}
+
+.custom-control {
+  transform: scale(1.7);
+  margin-top: 1rem;
+}
+@media screen and (max-width: 991px) {
+  .faq_section {
+    margin-left: 40px;
+  }
+  #heading {
+    margin-left: 40px;
+  }
+}
+@media screen and (max-width: 736px) {
+  /* .faq_button {
+    height: 59px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+  } */
+}
+
+@media screen and (max-width: 575px) {
+  .faq_sidenav {
+    min-height: 300px;
+    height: auto;
+  }
+  .faq_section {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .card-body {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  .plus {
+    margin-right: 8px;
+  }
+}
+
+
+
+
+
+.modal-confirm {
+  font-family: 'Varela Round', sans-serif;
+  color: #636363;
+  width: 325px;
+  font-size: 14px;
+}
+
+.modal-confirm .modal-content {
+  padding: 20px;
+  border-radius: 5px;
+  border: none;
+}
+
+.modal-confirm .modal-header {
+  border-bottom: none;
+  position: relative;
+}
+
+.modal-confirm h4 {
+  text-align: center;
+  font-size: 26px;
+  margin: 30px 0 -15px;
+}
+
+.modal-confirm .form-control,
+.modal-confirm .btn {
+  min-height: 40px;
+  border-radius: 3px;
+}
+
+.modal-confirm .close {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+}
+
+.modal-confirm .modal-footer {
+  border: none;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.modal-confirm .icon-box {
+  color: #fff;
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: -70px;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  z-index: 9;
+  padding: 15px;
+  text-align: center;
+  align-items: center;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.modal-confirm .icon-box i {
+  font-size: 58px;
+  position: relative;
+  top: 3px;
+}
+
+.modal-confirm.modal-dialog {
+  margin-top: 80px;
+}
+
+.modal-confirm .btn {
+  color: #fff;
+  border-radius: 4px;
+  background: #e41a0c;
+  text-decoration: none;
+  transition: all 0.4s;
+  line-height: normal;
+  border: none;
+}
+
+.modal-confirm .btn:hover,
+.modal-confirm .btn:focus {
+  background: #e41a0c;
+  outline: none;
+}
+
+.trigger-btn {
+  display: inline-block;
+  margin: 100px auto;
+}
+
+
+
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#084482;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+	margin-top:22px;
+}

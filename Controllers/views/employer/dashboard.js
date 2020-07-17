@@ -1,3 +1,68 @@
+const db = require('../../../Models');
+const employerss = db.Employer;
+const mainuser = db.User;
+const company_type = db.Company_category;
+//function for loading all data
+async function employerInfo(req, res) {
+  const getemployer = await employerss.findOne({
+    where: {
+      user_id: req.session.userId,
+    },
+    include: [mainuser, company_type],
+  });
+  const allEmployees = await db.Employee.count();
+  const employeeContacted = await db.Team.count({
+    where: {
+      employer_id: req.session.employerId,
+    },
+  });
+  const employeeEmployed = await db.Team.count({
+    where: {
+      employer_id: req.session.employerId,
+      status: 'Accepted',
+    },
+  });
+  //console.log(getemployer);
+  var {
+    id,
+    CompanyCategoryCategoryId,
+    UserUserId,
+    User,
+    Company_category,
+    ...employerInfo
+  } = getemployer.dataValues;
+  var {
+    id,
+    RoleRoleId,
+    block,
+    password,
+    auth_id,
+    status,
+    verification_token,
+    provider,
+    role_id,
+    resetPasswordToken,
+    resetPasswordExpire,
+    ...userIdentity
+  } = getemployer.dataValues.User.dataValues;
+  var {
+    id,
+    RoleRoleId,
+    ...userIndustry
+  } = getemployer.dataValues.Company_category.dataValues;
+
+  var dashboard = { allEmployees, employeeContacted, employeeEmployed };
+
+  const employerbasicInfo = {
+    ...userIdentity,
+    employerInfo,
+    userIndustry,
+    dashboard,
+  };
+  return employerbasicInfo;
+}
+
+//the main module
 module.exports = {
   employerDashboard: (req, res) => {
     res.render('Pages/employer-dashboard', {
@@ -13,119 +78,97 @@ module.exports = {
   },
 
   employerMessages: (req, res) => {
-    /* //get messages from db
-    const url = 'https://api.lancers.app/v1/message/chat-users';
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJpbGxtYWwwNzFAZ21haWwuY29tIiwidXNlcklkIjoiYWE2MjRkMGYtYjgzZi00MzQ3LWIwZjAtYWQxY2Q4NTJhNzU2IiwidXNlclJvbGUiOiJST0wtRU1QTE9ZRVIiLCJ1c2VyVHlwZUlkIjpudWxsLCJpYXQiOjE1OTQyMDgxNjQsImV4cCI6MTU5NDI5NDU2NH0.tuwAyP1Zii-5JyUeqt4Qrby7V4MbYjSr4ZSCvG-FoQc';
-    const allMessages = axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err)) */
-
     res.render('Pages/employer-messages', {
       pageName: 'Employer Messages',
     });
-
-    /* get cookies
-function logCookie(cookie) {
-  if (cookie) {
-    console.log(cookie.value);
-  }
-}
-
-function getCookie(tabs) {
-  var getting = browser.cookies.get({
-    url: tabs[0].url,
-    name: "favourite-colour"
-  });
-  getting.then(logCookie);
-}
-
-var getActive = browser.tabs.query({
-  active: true,
-  currentWindow: true
-});
-getActive.then(getCookie); */
   },
 
-  employerCreateProfile: (req, res) => {
+  employerCreateProfile: async (req, res) => {
+    const companyCat = await company_type.findAll();
     res.render('Pages/employer-profile-creation', {
       success: req.flash('success'),
       pageName: 'Create Profile',
-      data: req.session.companycat,
+      data: companyCat,
     });
   },
 
-  employerCompany: (req, res) => {
+  employerCompany: async (req, res) => {
+    const employerbasicInfo = await employerInfo(req, res);
     res.render('Pages/employer-company', {
       pageName: 'Company Profile',
-      EmployerInfo: req.session.details,
+      EmployerInfo: employerbasicInfo,
     });
   },
 
-  uploaddocsuccess: (req, res) => {
+  uploaddocsuccess: async (req, res) => {
+    const employerbasicInfo = await employerInfo(req, res);
     res.render('Pages/upload-doc-success', {
       pageName: 'Document Uploaded',
-      EmployerInfo: req.session.details,
+      EmployerInfo: employerbasicInfo,
     });
   },
 
-  uploaddocfailure: (req, res) => {
+  uploaddocfailure: async (req, res) => {
+    const employerbasicInfo = await employerInfo(req, res);
     res.render('Pages/upload-doc-failure', {
       pageName: 'Document Disapproved',
-      EmployerInfo: req.session.details,
+      EmployerInfo: employerbasicInfo,
     });
   },
 
-  employerProfile: (req, res) => {
+  employerProfile: async (req, res) => {
+    const employerbasicInfo = await employerInfo(req, res);
+    const companyCat = await company_type.findAll();
     res.render('Pages/employer-profile-page', {
       pageName: 'Profile',
-      EmployerInfo: req.session.details,
-      data: req.session.companycat,
+      EmployerInfo: employerbasicInfo,
+      data: companyCat,
     });
   },
 
-  employerDashboardSettings: (req, res) => {
+  employerDashboardSettings: async (req, res) => {
+    const employerbasicInfo = await employerInfo(req, res);
     res.render('Pages/employer-dash-settings.ejs', {
       pageName: 'Employer Dashboard - Settings',
-      EmployerInfo: req.session.details,
+      EmployerInfo: employerbasicInfo,
     });
   },
 
-  employerDashboardSupport: (req, res) => {
+  employerDashboardSupport: async (req, res) => {
+    const employerbasicInfo = await employerInfo(req, res);
     res.render('Pages/employer-dash-support', {
       pageName: 'Employer Dashboard',
-      EmployerInfo: req.session.details,
+      EmployerInfo: employerbasicInfo,
     });
   },
 
-  employerEmployeeGallery: (req, res) => {
+  employerEmployeeGallery: async (req, res) => {
+    const employerbasicInfo = await employerInfo(req, res);
     res.render('Pages/employer-employees-gallery', {
       pageName: 'Employee Gallery',
-      EmployerInfo: req.session.details,
+      EmployerInfo: employerbasicInfo,
     });
   },
 
-  employerAddTeam: (req, res) => {
+  employerAddTeam: async (req, res) => {
+    const employerbasicInfo = await employerInfo(req, res);
     res.render('Pages/employer-add-a-team', {
       pageName: 'Employer - Add Team',
-      EmployerInfo: req.session.details,
+      EmployerInfo: employerbasicInfo,
     });
   },
-
-  employerCompanyDashboard: (req, res) => {
+  employerCompanyDashboard: async (req, res) => {
+    const employerbasicInfo = await employerInfo(req, res);
     res.render('Pages/employer-company-dashboard', {
       pageName: 'Employer Dashboard',
-      EmployerInfo: req.session.details,
+      EmployerInfo: employerbasicInfo,
     });
   },
-
-  employerCertificate: (req, res) => {
+  employerCertificate: async (req, res) => {
+    const employerbasicInfo = await employerInfo(req, res);
     res.render('Pages/employer-certificate', {
       pageName: 'Upload Certificate',
-      EmployerInfo: req.session.details,
+      EmployerInfo: employerbasicInfo,
     });
   },
 };

@@ -2,14 +2,9 @@
 /* eslint-disable no-undef */
 const Sequelize = require('sequelize');
 const model = require('../../../Models/index');
-const {
-  errorResMsg,
-  successResMsg,
-} = require('../../../Utils/response');
+const { errorResMsg, successResMsg } = require('../../../Utils/response');
 
-const {
-  Op,
-} = Sequelize;
+const { Op } = Sequelize;
 
 module.exports = {
   adminMessagePage: async (req, res) => {
@@ -18,30 +13,36 @@ module.exports = {
       const adminChatUsers = await model.Admin.findAll({
         raw: true,
         attributes: ['user_id', 'first_name', 'last_name'],
-        include: [{
-          model: model.User,
-          attributes: ['role_id'],
-        }],
+        include: [
+          {
+            model: model.User,
+            attributes: ['role_id'],
+          },
+        ],
       });
 
       // Get employer chat users
       const employerChatUsers = await model.Employer.findAll({
         raw: true,
         attributes: ['user_id', 'employer_name', 'employer_photo'],
-        include: [{
-          model: model.User,
-          attributes: ['role_id'],
-        }],
+        include: [
+          {
+            model: model.User,
+            attributes: ['role_id'],
+          },
+        ],
       });
 
       // Get employee chat users
       const employeeChatUsers = await model.Employee.findAll({
         raw: true,
         attributes: ['user_id', 'first_name', 'last_name', 'image'],
-        include: [{
-          model: model.User,
-          attributes: ['role_id'],
-        }],
+        include: [
+          {
+            model: model.User,
+            attributes: ['role_id'],
+          },
+        ],
       });
 
       const allusers = [
@@ -58,6 +59,7 @@ module.exports = {
         pageName: 'Admin Messages',
         pageTitle: 'TalentPool | Admin Message',
         userId: req.session.userId,
+        role: req.session.data.userRole,
         allusers,
         path: '/admin/message',
         error: req.flash('error'),
@@ -79,20 +81,24 @@ module.exports = {
       const adminChatUsers = await model.Admin.findAll({
         raw: true,
         attributes: ['user_id', 'first_name', 'last_name'],
-        include: [{
-          model: model.User,
-          attributes: ['role_id'],
-        }],
+        include: [
+          {
+            model: model.User,
+            attributes: ['role_id'],
+          },
+        ],
       });
 
       // Get employee chat users
       const employeeChatUsers = await model.Employee.findAll({
         raw: true,
         attributes: ['user_id', 'first_name', 'last_name', 'image'],
-        include: [{
-          model: model.User,
-          attributes: ['role_id'],
-        }],
+        include: [
+          {
+            model: model.User,
+            attributes: ['role_id'],
+          },
+        ],
       });
 
       // console.log('admin', adminChatUsers);
@@ -105,6 +111,7 @@ module.exports = {
         pageTitle: 'TalentPool | Employer Message',
         EmployerInfo: req.session.details,
         userId: req.session.userId,
+        role: req.session.data.userRole,
         path: '/employer/message',
         employerUsers,
         dashboardPath: `${URL}employee/dashboard/${employerId}`,
@@ -124,12 +131,12 @@ module.exports = {
     let userId;
     let employeeId;
 
-    const {
-      passport,
-    } = req.session;
+    const { passport } = req.session;
 
     if (passport) {
-      const { passport: { user } } = req.session;
+      const {
+        passport: { user },
+      } = req.session;
       userId = user.userId || user.user_id;
       const { userTypeId } = user;
       employeeId = userTypeId;
@@ -143,20 +150,24 @@ module.exports = {
       const employerChatUsers = await model.Employer.findAll({
         raw: true,
         attributes: ['user_id', 'employer_name', 'employer_photo'],
-        include: [{
-          model: model.User,
-          attributes: ['role_id'],
-        }],
+        include: [
+          {
+            model: model.User,
+            attributes: ['role_id'],
+          },
+        ],
       });
 
       // Get admin chat users
       const adminChatUsers = await model.Admin.findAll({
         raw: true,
         attributes: ['user_id', 'first_name', 'last_name'],
-        include: [{
-          model: model.User,
-          attributes: ['role_id'],
-        }],
+        include: [
+          {
+            model: model.User,
+            attributes: ['role_id'],
+          },
+        ],
       });
       // console.log('admin', adminChatUsers);
       // console.log('Employer', employerChatUsers);
@@ -175,6 +186,7 @@ module.exports = {
         employeeUsers,
         data,
         profileImage: req.session.profileImage,
+        role: req.session.data.userRole,
         path: '/employee/message',
         dashboardPath: `/employee/dashboard/${employeeId}`,
         profilePath: `/employee/profile/${employeeId}`,
@@ -191,37 +203,34 @@ module.exports = {
 
   adminChatMessages: async (req, res) => {
     try {
-      const {
-        senderID,
-        receiverID,
-      } = req.params;
+      const { senderID, receiverID } = req.params;
 
       console.log(senderID, receiverID);
 
       const usersChatMessages = await model.Chat.findAll({
         raw: true,
-        order: [
-          ['createdAt'],
-        ],
+        order: [['createdAt']],
         where: {
           [Op.or]: [
             // eslint-disable-next-line max-len
             {
-              [Op.and]: [{
-                user_id: senderID,
-              },
-              {
-                receiver_id: receiverID,
-              },
+              [Op.and]: [
+                {
+                  user_id: senderID,
+                },
+                {
+                  receiver_id: receiverID,
+                },
               ],
             },
             {
-              [Op.and]: [{
-                user_id: receiverID,
-              },
-              {
-                receiver_id: senderID,
-              },
+              [Op.and]: [
+                {
+                  user_id: receiverID,
+                },
+                {
+                  receiver_id: senderID,
+                },
               ],
             },
           ],
@@ -240,31 +249,30 @@ module.exports = {
 
   employerChatMessages: async (req, res) => {
     try {
-      const {
-        senderID,
-        receiverID,
-      } = req.params;
+      const { senderID, receiverID } = req.params;
 
       const usersChatMessages = await model.Chat.findAll({
         where: {
           [Op.or]: [
             // eslint-disable-next-line max-len
             {
-              [Op.and]: [{
-                user_id: senderID,
-              },
-              {
-                receiver_id: receiverID,
-              },
+              [Op.and]: [
+                {
+                  user_id: senderID,
+                },
+                {
+                  receiver_id: receiverID,
+                },
               ],
             },
             {
-              [Op.and]: [{
-                user_id: receiverID,
-              },
-              {
-                receiver_id: senderID,
-              },
+              [Op.and]: [
+                {
+                  user_id: receiverID,
+                },
+                {
+                  receiver_id: senderID,
+                },
               ],
             },
           ],
@@ -288,31 +296,30 @@ module.exports = {
   },
   employeeChatMessages: async (req, res) => {
     try {
-      const {
-        senderID,
-        receiverID,
-      } = req.params;
+      const { senderID, receiverID } = req.params;
 
       const usersChatMessages = await model.Chat.findAll({
         where: {
           [Op.or]: [
             // eslint-disable-next-line max-len
             {
-              [Op.and]: [{
-                user_id: senderID,
-              },
-              {
-                receiver_id: receiverID,
-              },
+              [Op.and]: [
+                {
+                  user_id: senderID,
+                },
+                {
+                  receiver_id: receiverID,
+                },
               ],
             },
             {
-              [Op.and]: [{
-                user_id: receiverID,
-              },
-              {
-                receiver_id: senderID,
-              },
+              [Op.and]: [
+                {
+                  user_id: receiverID,
+                },
+                {
+                  receiver_id: senderID,
+                },
               ],
             },
           ],
