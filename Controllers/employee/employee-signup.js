@@ -101,7 +101,7 @@ exports.create = async (req, res) => {
       if (registrationType === 'intern') {
         return res.redirect('/employee/register');
       }
-      return res.redirect('/employee/register#new-user');
+      return res.redirect('/employee/register');
     } catch (error) {
       req.flash('error', 'An Error occoured, try again.');
       if (registrationType === 'intern') {

@@ -25,8 +25,17 @@ module.exports = {
     });
   },
   returnToDashboard: async (req, res) => {
+    let userId;
+    const { passport } = req.session;
+    if (passport) {
+      const { passport: { user } } = req.session;
+      userId = user.userId || user.user_id;
+      // console.log(userId);
+    } else {
+      userId = req.session.userId;
+    }
     const {
-      isLoggedIn, userId, data,
+      isLoggedIn, data,
     } = req.session;
 
     if (data.userRole === 'ROL-EMPLOYER') {
