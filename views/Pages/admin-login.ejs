@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-lg-5 d-none d-lg-block signup-img ">
             </div>
-            <div class=" col-lg-7 px-4">                
+            <div class=" col-lg-7 px-4">
                 <div class="container pl-lg-5 pr-lg-3 pt-4">
                     <div class="pt-5 pb-2">
                         <p class="bigTitle">Welcome back</p>
@@ -33,11 +33,11 @@
 
                             <div class="col-md mb-3 px-0">
                                 <label for="email">Email</label>
-                                <input 
+                                <input
                                 class="form-control <%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
-                                type="email" 
-                                name="email" 
-                                id="email" 
+                                type="email"
+                                name="email"
+                                id="email"
                                 placeholder="example@gmail.com"
                                 value="<%= oldInput.email %>">
                                 <!-- <input type="email" class="form-control" id="email" placeholder="example@gmail.com"
@@ -48,11 +48,11 @@
 
                             <div class="col-md mb-3 px-0">
                                 <label for="password">Password</label>
-                                <input 
+                                <input
                                 class="form-control <%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
-                                type="password" 
-                                name="password" 
-                                id="password" 
+                                type="password"
+                                name="password"
+                                id="password"
                                 minlength="8" placeholder="at least 8 characters"
                                 value="<%= oldInput.password %>">
                                 <!-- <input type="password" class="form-control" id="password" minlength="8"
@@ -82,7 +82,7 @@
                                     data-target="#exampleModal">Login</button>
                             </div>
                         </div>
-                    </form>                 
+                    </form>
                     <!-- <div class="row">
                         <div class="col-md-5 d-none d-md-block">
                             <hr>
@@ -109,7 +109,7 @@
                     <p class="text-center py-2">Don't have an account with us? <a href="/admin/signup"
                             class="login-link">Sign Up.</a></p>
                     </div> -->
-                </div>           
+                </div>
             </div>
         </div>
     </main>
