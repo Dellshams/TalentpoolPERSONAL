@@ -153,8 +153,7 @@
                               <select class="form-control em-input select" id="gender">
                                   <option selected disabled value="">Sex</option>
                                   <option value="male">Male</option>
-                                  <option value="memale">Female</option>
-                                  <option value="other">Other</option>
+                                  <option value="female">Female</option>
                               </select>
                           </div>
                           <div class="col-sm-4 col-4" id="countryContainer">
@@ -248,6 +247,7 @@
         for (const [key, value] of Object.entries(countries)) {
           select.innerHTML += option(value, key.toLowerCase());
         }
+        
 
     </script>
    </script>
