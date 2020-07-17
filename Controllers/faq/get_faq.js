@@ -12,7 +12,7 @@ exports.get_faq_admin = async (req, res)=>{
 
     const data = await query;
 
-    return res.render("Pages/admin-faq.ejs",{data:data,pageName:"FAQ",path:"admin-dashboard"});
+    return res.render("Pages/admin-faq.ejs",{message:undefined,data:data,pageName:"FAQ",path:"faq",isLoggedIn:req.session.isLoggedIn});
   } catch (error) {
     return errorResMsg(res, 500, 'An error occurred while getting FAQs');
   }
@@ -27,7 +27,7 @@ exports.get_faq = async (req, res)=>{
 
     const data = await query;
 
-    return res.render("Pages/faq.ejs",{data:data,pageName:"FAQ",path:"admin-dashboard"});
+    return res.render("Pages/faq.ejs",{data:data,pageName:"FAQ",path:"faq",isLoggedIn:req.session.isLoggedIn});
   } catch (error) {
     return errorResMsg(res, 500, 'An error occurred while getting FAQs');
   }

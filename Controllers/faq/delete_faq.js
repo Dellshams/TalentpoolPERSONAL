@@ -22,7 +22,7 @@ exports.delete_faq = async(req, res)=>{
         where: {id},
         force:true
       })
-      res.render('Pages/admin-faq',{pageName:'FAQ',path:'12',data:''})
+      res.render('Pages/admin-faq',{pageName:'FAQ',path:'faq',data:'',isLoggedIn:req.session.isLoggedIn})
       // res.render('Pages/faq',{'pageName':'Delete FAQ'})
   } catch(err){
     return errorResMsg(res,404,"Delete operation failed")

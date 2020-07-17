@@ -189,28 +189,41 @@ faqPageMB.addEventListener('click', (e) => {
 // }
 
 $('.customSwitch').on('change',function(){
+    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let idx = this.id.split(' ')[1];
     let len = this.id.split(' ')[0].length;
     let category = this.id.split(' ')[0][len-2]+this.id.split(' ')[0][len-1]
     let id = $('#id'+category+idx).val();
     let state = (this.checked==true)?1:0;
+    $.ajaxSetup({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Csrf-token',token)
+      }
+    });
     $.ajax({
       type: 'PUT',
-      url: '/v1/admin/faq',
+      url: '/admin/faq',
       data: {'id':id,'state':state}
     })
 })
 
 $('.delete-btn').click(function () {
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   var r = confirm("Are you sure want to delete this FAQ ?");
   if(r == true){
     let idx = this.id.split(' ')[1];
     let len = this.id.split(' ')[0].length;
     let category = this.id.split(' ')[0][len-2]+this.id.split(' ')[0][len-1];
     let id = ($('#id'+category+idx).val());
+    console.log(id);
+    $.ajaxSetup({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Csrf-token',token)
+      }
+    });
     var req = $.ajax({
       type: 'DELETE',
-      url:'/v1/admin/faq',
+      url:'/admin/faq',
       data: {'id':id},
       success: function(result){
         location.reload();
@@ -239,19 +252,59 @@ $('#update-button').click(function () {
   let answer = $('#answerUpdate').val();
   let category = $('#categoryUpdate').val();
   let id = $('#idUpdate').val();
-  console.log([question, answer,category,id])
-  $.ajax({
-    type: 'PUT',
-    url:'/v1/admin/faq',
-    data: {
-      question: question,
-      answer: answer,
-      category: category,
-      id: id,
-    },
-    success: function (result){
-      window.location.reload();
-    }
-  })
+  question = $.trim(question);
+  answer = $.trim(answer);
+  if(question==''||answer==''){
+    alert('One or more empty fields')
+  }
+  else{
+    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    $.ajaxSetup({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Csrf-token',token)
+      }
+    });
+    $.ajax({
+      type: 'PUT',
+      url:'/admin/faq',
+      data: {
+        question: question,
+        answer: answer,
+        category: category,
+        id: id,
+      },
+      success: function (data){
+        window.location.reload(true);
+      }
 
-  })
+    })
+  }
+
+})
+
+$('#create_button').click(function (){
+  let que = $('#createQuestion').val();
+  let ans = $('#createAnswer').val();
+  let cat = $('#createCategory').val();
+  ans = $.trim(ans);
+  que = $.trim(que);
+  if(ans==''||que==''){
+    alert('One or more empty fields');
+  }
+  else{
+    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    $.ajaxSetup({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Csrf-token',token)
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url:'/admin/faq',
+      data: {question:que,answer:ans,category: cat},
+      success: function(result){
+        window.location.reload(true);
+      }
+    })
+  }
+})

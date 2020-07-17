@@ -24,8 +24,8 @@ exports.search_faq_post = async (req, res)=>{
       }
     }
     arr = Array.from(new_data)
-    return res.render('Pages/faq',{data:arr,pageName:'FAQ'})
+    return res.render('Pages/faq',{data:arr,pageName:'faq',isLoggedIn:req.session.isLoggedIn})
   } catch (error) {
-    return errorResMsg(res, 500, error);
+    return errorResMsg(res, 500, "An error occured while querying Database");
   }
 };

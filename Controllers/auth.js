@@ -695,8 +695,8 @@ exports.forgotPassword = asyncHandler(async (req, res) => {
 
   // Create reset url
   const resetUrl = `${URL}/password/reset/${resetToken}`;
-  const message = `You are receiving this email because a password reset has been requested 
-  with your email. Please click this link to proceed: \n\n <a href=${resetUrl}>link</a> or 
+  const message = `You are receiving this email because a password reset has been requested
+  with your email. Please click this link to proceed: \n\n <a href=${resetUrl}>link</a> or
   ignore if you are unaware of this action.`;
 
   try {
@@ -796,7 +796,7 @@ exports.resendVerificationLink = async (req, res) => {
   // mail verification code to the user
   const verificationUrl = `${URL}/auth/email/verify?verification_code=${token}`;
 
-  const message = `<p> Hello, you requested for the resend of your verification link. 
+  const message = `<p> Hello, you requested for the resend of your verification link.
         Kindly verify your email </p><a href ='${verificationUrl}'>link</a>`;
   try {
     await sendEmail({

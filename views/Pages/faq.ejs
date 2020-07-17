@@ -16,7 +16,8 @@
                 <div class="py-5 text-center">
                     <h2 class="heading" style="color: #084482; margin-top: 55px;">How can we help?</h2>
                 </div>
-                <form class="form-group" action="/v1/faq/" method="post">
+                <form class="form-group" action="/faq/" method="post">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <div class="form-group input-group mb-4 row justify-content-center" style="width: 60%; margin-left: 20%;">
                       <input type="text" name="search_key" class="form-control" placeholder="Type your keyword of minimum three letters"
                           style="height: 45px; margin-left: -14px; border: 2px solid #B5B5B5; border-radius: 5px;">

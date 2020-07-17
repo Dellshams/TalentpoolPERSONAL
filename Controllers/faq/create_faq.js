@@ -1,21 +1,19 @@
 const  express  = require('express');
 const  model = require('../../Models');
 const { errorResMsg, successResMsg } = require('../../Utils/response');
-
 exports.createFaq = async (req, res) => {
-    const {category, question, answer} = req.body;
     try {
-    const newFaq = {
-        category: category,
-        question: question,
-        answer: answer,
-        user_id: '3b107838-0742-4d36-9b9a-9955551039da'
-    }
-    let createdFaq = await model.Faq.create(newFaq)
+    const {category, question, answer} = req.body;
+      const newFaq = {
+          category: category,
+          question: question,
+          answer: answer,
+          user_id: 'bf0a0e76-58b6-40c9-a78a-d5205a5e271b'
+      }
+      let createdFaq = await model.Faq.create(newFaq)
+      return successResMsg(res,200,"OK! Created");
 
-    // res.render('Pages/admin-faq', {faq: createdFaq, pageName:'Admin FAQ', path: 'admin-faq'})
-    res.redirect('/v1/admin/faq')
 }  catch (error) {
-    return errorResMsg(res, 500, 'An error occurred while getting FAQs');
+    return errorResMsg(res, 500, 'An error occurred while creating FAQs');
   }
 }

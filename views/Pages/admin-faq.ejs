@@ -2,7 +2,7 @@
 <html>
 
 <head>
-
+  <meta name="csrf-token" content="<%= csrfToken %>">
   <%- include('../Templates/admin-head') %>
   <link href="/styles/custom-css/admin-faq.css" rel="stylesheet" />
   <link rel="shortcut icon" href="/img/favicon.svg" type="image/x-icon">
@@ -40,7 +40,6 @@
         </ul>
 
       </div>
-
       <div id="faq_pageTP" class="col-sm-9 talent">
         <div class="row">
           <div class="pricing">Talent</div>
@@ -320,13 +319,14 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action='/v1/admin/faq' method="POST">
+              <form method="post">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="form-group">
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <label class="input-group-text" for="inputGroupSelect01">Category</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect01" name="category">
+                    <select class="custom-select" id="createCategory" name="category">
                       <option value="TP" >Talent Pool</option>
                       <option value="GS">Getting Started</option>
                       <option value="AP">Application</option>
@@ -336,15 +336,15 @@
                 </div>
                 <div class="form-group">
                   <label for="recipient-name" class="col-form-label">Question:</label>
-                  <input placeholder="Enter the question" type="text" class="form-control" id="recipient-name" name="question">
+                  <input placeholder="Enter the question" type="text" class="form-control" id="createQuestion" name="question">
                 </div>
                 <div class="form-group">
                   <label for="message-text" class="col-form-label">Answer:</label>
-                  <textarea placeholder="Enter the answer" class="form-control" id="message-text" name="answer"></textarea>
+                  <textarea placeholder="Enter the answer" class="form-control" id="createAnswer" name="answer"></textarea>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button id="create_button" type="button" class="btn btn-primary">Submit</button>
                 </div>
               </form>
             </div>
@@ -368,7 +368,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form>
+              <form method="post">
                 <div class="form-group">
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -393,7 +393,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" id="update-button" class="btn btn-primary">Update</button>
+                  <button type="button" id="update-button" class="btn btn-primary">Update</button>
                 </div>
               </form>
             </div>
