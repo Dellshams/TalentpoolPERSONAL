@@ -8,7 +8,7 @@ exports.createFaq = async (req, res) => {
           category: category,
           question: question,
           answer: answer,
-          user_id: 'bf0a0e76-58b6-40c9-a78a-d5205a5e271b'
+          user_id: req.session.userId
       }
       let createdFaq = await model.Faq.create(newFaq)
       return successResMsg(res,200,"OK! Created");

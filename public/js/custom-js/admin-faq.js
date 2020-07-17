@@ -226,7 +226,7 @@ $('.delete-btn').click(function () {
       url:'/admin/faq',
       data: {'id':id},
       success: function(result){
-        location.reload();
+        window.location.reload(true);
       }
     })
   }

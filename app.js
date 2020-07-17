@@ -19,14 +19,7 @@ const cors = require('cors');
 const { key } = require('./gen-key');
 // eslint-disable-next-line no-unused-vars
 
-<<<<<<< HEAD
 dotenv.config('.env');
-||||||| merged common ancestors
-dotenv.config();
-=======
-dotenv.config();
-// eslint-disable-next-line import/order
->>>>>>> 10c6b3e49a34f4afe5f8ec72c2fa28e94f816845
 process.env.TALENT_POOL_JWT_SECRET = key(64);
 
 const db = require('./Models');
