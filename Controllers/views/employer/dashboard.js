@@ -13,7 +13,7 @@ module.exports = {
   },
 
   employerMessages: (req, res) => {
-    /*//get messages from db
+    /* //get messages from db
     const url = 'https://api.lancers.app/v1/message/chat-users';
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJpbGxtYWwwNzFAZ21haWwuY29tIiwidXNlcklkIjoiYWE2MjRkMGYtYjgzZi00MzQ3LWIwZjAtYWQxY2Q4NTJhNzU2IiwidXNlclJvbGUiOiJST0wtRU1QTE9ZRVIiLCJ1c2VyVHlwZUlkIjpudWxsLCJpYXQiOjE1OTQyMDgxNjQsImV4cCI6MTU5NDI5NDU2NH0.tuwAyP1Zii-5JyUeqt4Qrby7V4MbYjSr4ZSCvG-FoQc';
     const allMessages = axios.get(url, {
@@ -22,13 +22,13 @@ module.exports = {
         }
       })
       .then((res) => console.log(res.data))
-      .catch((err) => console.log(err))*/
+      .catch((err) => console.log(err)) */
 
     res.render('Pages/employer-messages', {
       pageName: 'Employer Messages',
     });
 
-    /*get cookies
+    /* get cookies
 function logCookie(cookie) {
   if (cookie) {
     console.log(cookie.value);
@@ -47,7 +47,7 @@ var getActive = browser.tabs.query({
   active: true,
   currentWindow: true
 });
-getActive.then(getCookie);*/
+getActive.then(getCookie); */
   },
 
   employerCreateProfile: (req, res) => {
