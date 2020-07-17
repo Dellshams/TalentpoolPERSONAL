@@ -19,7 +19,7 @@ const renderPage = async (req, res, user) => {
       return res.redirect('/employer/profile/create');
     }
     req.flash('success', 'Login successful!');
-    return res.redirect(`/employer/dashboard/${user.userTypeId}`);
+    return res.redirect('/employer/dashboard');
   }
   if ((!user.userTypeId) || user.userTypeId == null) {
     req.flash('success', 'Authentication successful!');

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <%- include('../Templates/admin-head') %>
+  <link href="/styles/custom-css/admin-faq.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="/img/favicon.svg" type="image/x-icon">
+
+</head>
+
+<body>
+
+  <!-- Top Navbar -->
+  <%- include('../Templates/admin-header') %>
+
+  <!-- Side Nav -->
+  <%- include('../Templates/admin-sidebar') %>
+
+  <div id="body__click"></div>
+
+  <!-- FAQ Page -->
+  <div id="heading">
+    FAQs
+  </div>
+
+  <div class="faq_section container">
+    <div class="row no-gutters">
+      <div class="faq_sidenav col-sm-3">
+        <ul id="link-container" class="faq_sidenav_options">
+          <li><a class="li active" href="#talent">TalentPool</a></li>
+          <li><a class="li" href="#getting-started">Getting Started</a></li>
+          <li><a class="li" href="#application" class="">Application</a></li>
+          <li><a class="li" href="#membership">Membership</a></li>
+          <li>
+            <div class="faq_button_div"><button class="btn btn-link faq_button" type="button" data-toggle="modal"
+                data-target="#exampleModal"> <img src="/img/plus-20.png" style="margin-right: 8px; scale: .8;"> Add FAQ</button></div>
+
+          </li>
+        </ul>
+
+      </div>
+      <div id="faq_pageTP" class="col-sm-9 talent">
+        <div class="row">
+          <div class="pricing">Talent</div>
+          <div class="edit editTP"><a href="#">Edit</a></div>
+        </div>
+
+        <div class="faq_items">
+          <div class="accordion" id="questions">
+            <% for(let i = 0;i<data.length;++i) { %>
+              <% if(data[i].category=="TP") { %>
+            <div class="row container align-items-center">
+              <div class="card col-sm-10">
+
+                <div type="button" data-toggle="collapse" data-target="#collapse<%= i %>" aria-expanded="true"
+                  aria-controls="collapse<%= i %>" class="card-header" id="heading<%= i %>">
+                  <div class="d-flex justify-content-between    align-items-center">
+                    <div class="d-flex align-items-center"><i class="fa fa-plus" aria-hidden="true"></i> <%= data[i].question %>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+
+                <div id="collapse<%= i %>" class="collapse" aria-labelledby="heading<%= i %>" data-parent="#questions">
+                  <div class="card-body">
+                    <%= data[i].answer %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+
+                <div class="d-none justify-content-between admin-action admin-actionTP  ">
+                  <!-- <button class="btn-primary  btn mx-2 align-middle"><i class="fas fa-edit" aria-hidden="true"></i>
+                  </button> -->
+                <button class="btn-primary  btn mx-2 align-middle edit-btn" id="edit<%= i %>" value="<%= data[i].id %>%%<%=data[i].answer%>%%<%=data[i].question %>%%<%= data[i].category %>"> <i class="fas fa-edit" aria-hidden="true"></i></button>
+
+
+                    <input id = 'idTP<%= i %>' type="text" name="id" value="<%= data[i].id %>" hidden = true>
+
+                      <button id='deleteTP <%= i %>'  class="btn-danger btn delete-btn">
+                        <i class="fa fa-trash" aria-hidden="true">
+                        </i>
+
+                      </button>
+
+
+                </div>
+
+                <div class="custom-control custom-switch togglerTP">
+                  <% if(data[i].blocked==0) {%>
+                    <input type="checkbox" class="custom-control-input customSwitch" id="customSwitchTP <%= i %>">
+                    <% } %>
+                  <% if(data[i].blocked==1) { %>
+                  <input checked type="checkbox" class="custom-control-input customSwitch" id="customSwitchTP <%= i %>">
+                  <% } %>
+                  <label class="custom-control-label" for="customSwitchTP <%= i %>"></label>
+                </div>
+
+              </div>
+
+            </div>
+            <% } %>
+            <% } %>
+
+
+            <!--col-->
+          </div> <!-- row -->
+        </div>
+
+      </div>
+
+      <div id="faq_pageGS" class="col-sm-9 get-started">
+        <div class="row">
+          <div class="pricing">Get Started</div>
+          <div class="edit editGS"><a href="#">Edit</a></div>
+        </div>
+
+        <div class="faq_items">
+          <div class="accordion" id="questionsGS">
+            <% for(let i = 0;i<data.length;++i) { %>
+              <% if(data[i].category=="GS") { %>
+            <div class="row container align-items-center">
+              <div class="card col-sm-10">
+
+                <div type="button" data-toggle="collapse" data-target="#collapse<%= i %>" aria-expanded="true"
+                  aria-controls="collapse<%= i %>" class="card-header" id="heading<%= i %>">
+                  <div class="d-flex justify-content-between    align-items-center">
+                    <div class="d-flex align-items-center"><i class="fa fa-plus" aria-hidden="true"></i> <%= data[i].question %>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+
+                <div id="collapse<%= i %>" class="collapse" aria-labelledby="heading<%= i %>" data-parent="#questionsGS">
+                  <div class="card-body">
+                    <%= data[i].answer %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+
+                <div class="d-none justify-content-between admin-action admin-actionGS">
+                  <button class="btn-primary  btn mx-2 align-middle edit-btn" id="edit<%= i %>" value="<%= data[i].id %>%%<%=data[i].answer%>%%<%=data[i].question %>%%<%= data[i].category %>"><i class="fas fa-edit" aria-hidden="true"></i>
+                  </button>
+                    <input type="text" id="idGS<%= i %>" name="id" value="<%= data[i].id %>" hidden = true>
+                    <button id='deleteGS <%= i %>' class="btn-danger btn delete-btn"><i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+
+                <div class="custom-control custom-switch togglerGS">
+                  <% if(data[i].blocked==0) {%>
+                  <input type="checkbox" class="custom-control-input customSwitch" id="customSwitchGS <%= i %>">
+                  <% } %>
+                  <% if(data[i].blocked==1) {%>
+                    <input checked type="checkbox" class="custom-control-input customSwitch" id="customSwitchGS <%= i %>">
+                  <% } %>
+                  <label class="custom-control-label" for="customSwitchGS <%= i %>"></label>
+                </div>
+
+              </div>
+
+            </div>
+            <% } %>
+            <% } %>
+            <!--col-->
+          </div> <!-- row -->
+        </div>
+
+      </div>
+
+
+      <div id="faq_pageAP" class="col-sm-9 application">
+        <div class="row">
+          <div class="pricing">Application</div>
+          <div class="edit editAP"><a href="#">Edit</a></div>
+        </div>
+
+        <div class="faq_items">
+          <div class="accordion" id="questionsAP">
+            <% for(let i = 0;i<data.length;++i) { %>
+              <% if(data[i].category=="AP") { %>
+            <div class="row container align-items-center">
+              <div class="card col-sm-10">
+
+                <div type="button" data-toggle="collapse" data-target="#collapse<%= i %>" aria-expanded="true"
+                  aria-controls="collapse<%= i %>" class="card-header" id="heading<%= i %>">
+                  <div class="d-flex justify-content-between    align-items-center">
+                    <div class="d-flex align-items-center"><i class="fa fa-plus" aria-hidden="true"></i> <%= data[i].question %>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+
+                <div id="collapse<%= i %>" class="collapse" aria-labelledby="heading<%= i %>" data-parent="#questionsAP">
+                  <div class="card-body">
+                    <%= data[i].answer %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+
+                <div class="d-none justify-content-between admin-action admin-actionAP">
+                  <button class="btn-primary  btn mx-2 align-middle edit-btn" id="edit<%= i %>" value="<%= data[i].id %>%%<%=data[i].answer%>%%<%=data[i].question %>%%<%= data[i].category %>"><i class="fas fa-edit" aria-hidden="true"></i>
+                  </button>
+                    <input type="text" id="idAP<%= i %>" name="id" value="<%= data[i].id %>" hidden = true>
+                    <button id='deleteAP <%= i %>' class="btn-danger btn delete-btn"><i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+
+                <div class="custom-control custom-switch togglerAP">
+                  <% if(data[i].blocked==0) {%>
+                  <input type="checkbox" class="custom-control-input customSwitch" id="customSwitchAP <%= i %>">
+                  <% } %>
+                  <% if(data[i].blocked==1) {%>
+                    <input checked type="checkbox" class="custom-control-input customSwitch" id="customSwitchAP <%= i %>">
+                  <% } %>
+                  <label class="custom-control-label" for="customSwitchAP <%= i %>"></label>
+                </div>
+
+              </div>
+
+            </div>
+            <% } %>
+            <% } %>
+            <!--col-->
+          </div> <!-- row -->
+        </div>
+
+      </div>
+
+
+      <div id="faq_pageMB" class="col-sm-9 membership">
+        <div class="row">
+          <div class="pricing">Membership</div>
+          <div class="edit editMB"><a href="#">Edit</a></div>
+        </div>
+
+        <div class="faq_items">
+          <div class="accordion" id="questionsMB">
+            <% for(let i = 0;i<data.length;++i) { %>
+              <% if(data[i].category=="MB") { %>
+            <div class="row container align-items-center">
+              <div class="card col-sm-10">
+
+                <div type="button" data-toggle="collapse" data-target="#collapse<%= i %>" aria-expanded="true"
+                  aria-controls="collapse<%= i %>" class="card-header" id="heading<%= i %>">
+                  <div class="d-flex justify-content-between    align-items-center">
+                    <div class="d-flex align-items-center"><i class="fa fa-plus" aria-hidden="true"></i><%= data[i].question %>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+
+                <div id="collapse<%= i %>" class="collapse" aria-labelledby="heading<%= i %>" data-parent="#questionsMB">
+                  <div class="card-body">
+                    <%= data[i].answer %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+
+                <div class="d-none justify-content-between admin-action admin-actionMB">
+                  <button class="btn-primary  btn mx-2 align-middle edit-btn" id="edit<%= i %>" value="<%= data[i].id %>%%<%=data[i].answer%>%%<%=data[i].question %>%%<%= data[i].category %>"><i class="fas fa-edit" aria-hidden="true"></i>
+                  </button>
+                    <input type="text" id ="idMB<%= i %>" name="id" value="<%= data[i].id %>" hidden = true>
+                    <button id='deleteMB <%= i %>' class="btn-danger btn delete-btn"><i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="custom-control custom-switch togglerMB">
+                  <% if(data[i].blocked==0) {%>
+                  <input type="checkbox" class="custom-control-input customSwitch" id="customSwitchMB <%= i %>">
+                  <% } %>
+                  <% if(data[i].blocked==1) {%>
+                    <input checked type="checkbox" class="custom-control-input customSwitch" id="customSwitchMB <%= i %>">
+                    <% } %>
+                  <label class="custom-control-label" for="customSwitchMB <%= i %>"></label>
+                </div>
+
+              </div>
+
+            </div>
+            <% } %>
+            <% } %>
+            <!--col-->
+          </div> <!-- row -->
+        </div>
+
+      </div>
+
+
+
+
+
+      <!-- Modal to Add New FAQs -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">New FAQs</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="post">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <div class="form-group">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Category</label>
+                    </div>
+                    <select class="custom-select" id="createCategory" name="category">
+                      <option value="TP" >Talent Pool</option>
+                      <option value="GS">Getting Started</option>
+                      <option value="AP">Application</option>
+                      <option value="MB">Membership</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Question:</label>
+                  <input placeholder="Enter the question" type="text" class="form-control" id="createQuestion" name="question">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Answer:</label>
+                  <textarea placeholder="Enter the answer" class="form-control" id="createAnswer" name="answer"></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button id="create_button" type="button" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Update FAQ</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="post">
+                <div class="form-group">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Category</label>
+                    </div>
+                    <select class="custom-select" id="categoryUpdate" name="category">
+                      <option value="TP" selected>Talent Pool</option>
+                      <option value="GS">Getting Started</option>
+                      <option value="AP">Application</option>
+                      <option value="MB">Membership</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Question:</label>
+                  <input type="text" class="form-control" id="questionUpdate" name="question">
+                </div>
+                <input type="text" name="" id="idUpdate" value="" hidden= true>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Answer:</label>
+                  <textarea class="form-control" id="answerUpdate" name="answer"></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" id="update-button" class="btn btn-primary">Update</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+  <!-- container -->
+  <!-- <img class="plus" src="../img/plus.png"> -->
+  <!-- <script>
+        $('.card-header').click(function() {
+            $(this).find('i').toggleClass('fa fa-plus fa fa-minus');
+        });
+    </script> -->
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script src="/js/custom-js/side-nav.js"></script>
+  <script src="/js/custom-js/admin-faq.js"></script>
+  <script src="/js/bootstrap-js/jquery.js"></script>
+  <script src="/js/bootstrap-js/bootstrap.js"></script>
+
+
+</body>
+
+</html>
