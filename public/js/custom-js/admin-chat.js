@@ -40,10 +40,10 @@ function getAllMessages() {
             receiver = item.dataset.id;
             receiver_name = item.dataset.name;
             realchat.innerHTML = '';
-            console.log(sender, receiver);
+
 
             msgp.innerHTML = '';
-            console.log('name', item.dataset.name);
+
             let pr = document.createElement('p');
             pr.classList.add('m-0', 'pl-4');
             let img3 = document.createElement('img');
@@ -68,7 +68,7 @@ function getAllMessages() {
                     }
 
                     res.data.data.forEach((item) => {
-                        console.log(item);
+
 
 
                         if (item.user_id === sender) {
@@ -134,7 +134,7 @@ function getAllMessages() {
                         shouldScroll =
                             chatmessages.scrollTop + chatmessages.clientHeight ===
                             chatmessages.scrollHeight;
-                        console.log(chatmessages.scrollTop, shouldScroll);
+
                         message.value = '';
                         if (!shouldScroll) {
                             chatmessages.scrollTop = chatmessages.scrollHeight;
@@ -220,7 +220,7 @@ const sendMessage = () => {
 message.addEventListener('keyup', sendMessage);
 
 socket.on('new_message', function (data) {
-    console.log(data);
+
     if (data.sender === sender || data.receiver !== sender) {
         return;
     }
@@ -247,8 +247,7 @@ socket.on('new_message', function (data) {
     sender1.classList.add('sender');
     sender1.appendChild(chatcontainer);
     sender1.appendChild(time);
-    console.log(sender);
-    console.log(data.receiver !== sender);
+
     if (check && receiver === data.sender) {
         realchat.appendChild(sender1);
     }
@@ -256,7 +255,7 @@ socket.on('new_message', function (data) {
     shouldScroll =
         chatmessages.scrollTop + chatmessages.clientHeight ===
         chatmessages.scrollHeight;
-    console.log(chatmessages.scrollTop, shouldScroll);
+
     message.value = '';
     if (!shouldScroll) {
         chatmessages.scrollTop = chatmessages.scrollHeight;

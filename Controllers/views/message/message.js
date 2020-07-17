@@ -99,7 +99,7 @@ module.exports = {
             // console.log('Employer', employerChatUsers);
             // console.log('Employee', employeeChatUsers);
             const employerUsers = [...adminChatUsers, ...employeeChatUsers];
-            console.log(req.session.details)
+            console.log(req.session.data)
             res.status(200).render('Pages/employer-messages', {
                 pageName: 'Employer Messages',
                 pageTitle: 'TalentPool | Employer Message',
