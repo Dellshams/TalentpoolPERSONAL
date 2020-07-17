@@ -68,18 +68,25 @@ function toUnblock(userId, adminName, csrf) {
 function toAddAdmin() {
   const fname = document.getElementById('fnameV2').value;
   const lname = document.getElementById('lnameV2').value;
-  swal({
-    title: 'Are you sure?',
-    text: `Do you want to make ${fname} ${lname} an admin ?`,
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Yes!',
-    cancelButtonText: 'No.',
-  }).then(async (result) => {
-    if (result.value) {
-      document.getElementById('adminForm').submit();
-    }
-  });
+  const email = document.getElementById('emailV2').value;
+  const password = document.getElementById('passwordV2').value;
+  const phoneNumber = document.getElementById('phoneV2').value;
+
+  if (fname && lname && email && password && phoneNumber) {
+    swal({
+      title: 'Are you sure?',
+      text: `Do you want to make ${fname} ${lname} an admin ?`,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes!',
+      cancelButtonText: 'No.',
+    }).then(async (result) => {
+      if (result.value) {
+        document.getElementById('adminForm').submit();
+      }
+    });
+  }
+  document.getElementById('formError').innerHTML = 'All fields are required!';
 }
 
 function toDelete(userId, adminName, csrf) {
