@@ -45,7 +45,7 @@ appRoute.get('/:username', employeeController.getProfileByUsername);
 // Employee Support
 // appRoute.get('/employee/support', employeeViewController.getEmployeeSupport);
 // // Employee Settings
-// appRoute.get('/employee/settings', employeeViewController.getEmployeeSettings);
+appRoute.get('/employee/settings', employeeViewController.getEmployeeSettings);
 // Employee's Employers
 // appRoute.get(
 //   '/employee/employers',
